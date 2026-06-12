@@ -1,0 +1,857 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#ffffff;--bg2:#f8f9fb;--bg3:#f1f3f7;--bg4:#e8ebf2;
+--border:#e2e6ef;--border2:#c8cfe0;
+--text:#0f1117;--text2:#4a5068;--text3:#8b93ad;
+--gold:#b8860b;--goldbg:#fef9ec;--goldb:#f0d060;
+--teal:#0a6e52;--tealbg:#e8f7f2;
+--purple:#4a3fa0;--purplebg:#eeedfe;
+--coral:#b03a1a;--coralbg:#faece7;
+--green:#2d6a0a;--greenbg:#eaf3de;
+--blue:#1a4f8a;--bluebg:#e6f1fb;
+--amber:#8a4e00;--amberbg:#faeeda;
+--red:#8a1f1f;--redbg:#fcebeb;
+--sidebar:200px;--r:8px;--rl:12px;
+}
+.dark{
+--bg:#0d0f14;--bg2:#13161d;--bg3:#1a1e27;--bg4:#222736;
+--border:#2a2f3d;--border2:#353c50;
+--text:#e8eaf2;--text2:#8892b0;--text3:#4a526e;
+--gold:#d4a843;--goldbg:rgba(212,168,67,.12);--goldb:rgba(212,168,67,.35);
+--teal:#2dd4bf;--tealbg:rgba(45,212,191,.1);
+--purple:#a78bfa;--purplebg:rgba(167,139,250,.1);
+--coral:#f87171;--coralbg:rgba(248,113,113,.1);
+--green:#4ade80;--greenbg:rgba(74,222,128,.1);
+--blue:#60a5fa;--bluebg:rgba(96,165,250,.1);
+--amber:#fbbf24;--amberbg:rgba(251,191,36,.1);
+--red:#f87171;--redbg:rgba(248,113,113,.1);
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:13px}
+.app{display:flex;height:780px;overflow:hidden;border:1px solid var(--border);border-radius:var(--rl);position:relative}
+/* Sidebar */
+.sb{width:var(--sidebar);background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+.brand{padding:13px 13px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.blogo{width:28px;height:28px;border-radius:6px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+.bname{font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.3px}
+.bsub{font-size:9px;color:var(--text3);letter-spacing:.4px}
+.ns{padding:9px 9px 2px;font-size:9px;font-weight:700;letter-spacing:1px;color:var(--text3);text-transform:uppercase}
+.ni{display:flex;align-items:center;gap:7px;padding:6px 9px;margin:1px 4px;border-radius:6px;cursor:pointer;color:var(--text2);font-size:11px;transition:all .12s}
+.ni:hover{background:var(--bg3);color:var(--text)}
+.ni.on{background:var(--goldbg);color:var(--gold);font-weight:500;border:1px solid var(--goldb)}
+.ni i{font-size:13px;flex-shrink:0}
+.nbadge{margin-left:auto;background:var(--coral);color:#fff;font-size:8px;padding:1px 5px;border-radius:20px;font-weight:700}
+/* Main */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.topbar{padding:0 14px;height:46px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg2);flex-shrink:0}
+.tbtitle{font-size:13px;font-weight:600;color:var(--text)}
+.tbsub{font-size:10px;color:var(--text3)}
+.tbr{display:flex;align-items:center;gap:6px}
+.srch{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:5px 9px;font-size:11px;color:var(--text);width:140px;outline:none}
+.srch::placeholder{color:var(--text3)}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:6px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);transition:all .12s;white-space:nowrap}
+.btn:hover{background:var(--bg4);color:var(--text)}
+.btn.pri{background:var(--gold);color:#fff;border-color:var(--gold);font-weight:600}
+.btn.pri:hover{opacity:.88}
+.tmbtn{display:flex;align-items:center;gap:5px;padding:5px 10px;border-radius:6px;cursor:pointer;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);font-size:11px;font-weight:500;transition:all .12s}
+.tmbtn:hover{background:var(--bg4)}
+/* Content */
+.content{flex:1;overflow-y:auto;padding:14px;min-width:0}
+.page{display:none}.page.on{display:block}
+/* Grids */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:9px}
+/* Cards */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:13px}
+.ct{font-size:9px;font-weight:700;letter-spacing:.6px;color:var(--text3);text-transform:uppercase;margin-bottom:9px}
+/* KPI */
+.kpi{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rl);padding:11px 13px}
+.kl{font-size:10px;color:var(--text3);margin-bottom:2px}
+.kv{font-size:21px;font-weight:700;color:var(--text)}
+.ks{font-size:9px;color:var(--text3);margin-top:2px}
+.kc{font-size:9px;margin-top:2px}.kc.up{color:var(--green)}.kc.dn{color:var(--coral)}
+/* Pills */
+.pill{display:inline-flex;align-items:center;padding:2px 7px;border-radius:20px;font-size:9px;font-weight:700;white-space:nowrap}
+.pn{background:var(--bluebg);color:var(--blue)}
+.pf{background:var(--amberbg);color:var(--amber)}
+.pm{background:var(--purplebg);color:var(--purple)}
+.pb{background:var(--greenbg);color:var(--green)}
+.pe{background:var(--tealbg);color:var(--teal)}
+.pd{background:var(--goldbg);color:var(--gold)}
+.po{background:var(--redbg);color:var(--red)}
+.ppaid{background:var(--greenbg);color:var(--green)}
+.ppart{background:var(--amberbg);color:var(--amber)}
+.phot{background:var(--redbg);color:var(--red)}
+.pcold{background:var(--bg3);color:var(--text3);border:1px solid var(--border)}
+.pact{background:var(--greenbg);color:var(--green)}
+.pfree{background:var(--bluebg);color:var(--blue)}
+.pprob{background:var(--amberbg);color:var(--amber)}
+/* Table */
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.4px;padding:6px 10px;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:8px 10px;border-bottom:1px solid var(--border);font-size:11px;color:var(--text2);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr.cr:hover td{background:var(--bg3);cursor:pointer}
+.av{width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;flex-shrink:0}
+/* Kanban */
+.kbn{display:flex;gap:9px;overflow-x:auto;padding-bottom:6px}
+.kcol{width:148px;flex-shrink:0}
+.kh{font-size:9px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--text3);margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
+.kn{background:var(--bg3);color:var(--text3);font-size:8px;padding:1px 5px;border-radius:10px}
+.kcard{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px;margin-bottom:5px;cursor:pointer;transition:all .12s}
+.kcard:hover{border-color:var(--border2);background:var(--bg4)}
+.kcname{font-size:11px;font-weight:600;color:var(--text);margin-bottom:2px}
+.kcsub{font-size:9px;color:var(--text3)}
+.kcbud{font-size:10px;color:var(--gold);font-weight:600;margin-top:3px}
+/* Tabs */
+.tabs{display:flex;gap:2px;background:var(--bg3);padding:3px;border-radius:6px;margin-bottom:11px;width:fit-content}
+.tab{padding:4px 11px;border-radius:4px;font-size:11px;font-weight:500;cursor:pointer;color:var(--text3);transition:all .12s}
+.tab.on{background:var(--bg2);color:var(--text);box-shadow:0 1px 2px rgba(0,0,0,.1)}
+/* Activity */
+.ar{display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)}
+.ar:last-child{border-bottom:none}
+.adot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:3px}
+/* Bar chart */
+.bw{display:flex;align-items:flex-end;gap:4px;height:65px}
+.bar{flex:1;border-radius:3px 3px 0 0;min-width:5px;cursor:pointer}
+.bar:hover{opacity:.7}
+.bl{flex:1;text-align:center;font-size:8px;color:var(--text3)}
+/* Workflow */
+.wf{display:flex;align-items:center;gap:5px;flex-wrap:wrap;padding:9px;background:var(--bg3);border-radius:6px}
+.ws{background:var(--bg4);border:1px solid var(--border2);border-radius:5px;padding:3px 8px;font-size:10px;color:var(--text2)}
+.ws.done{border-color:var(--green);color:var(--green);background:var(--greenbg)}
+.ws.act{border-color:var(--gold);color:var(--gold);background:var(--goldbg)}
+.wa{color:var(--text3);font-size:10px}
+/* Equipment */
+.eqi{display:flex;align-items:center;gap:8px;padding:7px;background:var(--bg3);border-radius:6px;margin-bottom:5px;cursor:pointer;transition:all .12s}
+.eqi:hover{background:var(--bg4)}
+.eqico{width:28px;height:28px;border-radius:6px;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+/* Calendar */
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cday{background:var(--bg3);border-radius:6px;padding:5px;font-size:9px;cursor:pointer;border:1px solid var(--border);min-height:44px;transition:all .12s}
+.cday:hover{border-color:var(--border2)}
+.cday.ev{border-color:var(--gold);background:var(--goldbg)}
+.cdn{font-size:9px;font-weight:600;color:var(--text3);margin-bottom:2px}
+.cev{font-size:8px;color:var(--gold);background:var(--goldbg);border:1px solid var(--goldb);padding:1px 3px;border-radius:3px;margin-top:1px}
+/* Progress */
+.prog{background:var(--bg3);border-radius:20px;height:4px;overflow:hidden;margin-top:3px}
+.progf{height:100%;border-radius:20px}
+/* Score */
+.sco{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;font-size:9px;font-weight:700}
+
+/* ==================== POPUP ==================== */
+.popup-wrap{
+  display:none;
+  position:absolute;
+  inset:0;
+  z-index:100;
+  background:rgba(0,0,0,0.55);
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.popup-wrap.open{display:flex}
+.popup{
+  background:var(--bg2);
+  border:1px solid var(--border2);
+  border-radius:var(--rl);
+  width:100%;
+  max-width:520px;
+  max-height:680px;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  box-shadow:0 8px 40px rgba(0,0,0,.35);
+  animation:popIn .18s ease;
+}
+@keyframes popIn{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}
+.ph{padding:14px 16px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-shrink:0}
+.ph-ava{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;flex-shrink:0}
+.ph-title{font-size:14px;font-weight:600;color:var(--text)}
+.ph-sub{font-size:10px;color:var(--text3);margin-top:1px}
+.pclose{margin-left:auto;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text3);border:1px solid var(--border);background:var(--bg3);transition:all .12s;flex-shrink:0}
+.pclose:hover{color:var(--text);background:var(--bg4)}
+.pbody{padding:16px;overflow-y:auto;flex:1}
+.pfooter{padding:11px 16px;border-top:1px solid var(--border);display:flex;gap:7px;flex-shrink:0;flex-wrap:wrap}
+/* Detail field */
+.df{margin-bottom:12px}
+.dfl{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
+.dfv{font-size:12px;color:var(--text);font-weight:500}
+.dfsub{font-size:10px;color:var(--text2);margin-top:1px;line-height:1.5}
+.drow{display:flex;gap:12px;margin-bottom:12px}
+.drow .df{flex:1;margin-bottom:0}
+.ddiv{height:1px;background:var(--border);margin:13px 0}
+/* Workflow steps in popup */
+.dwf{display:flex;flex-direction:column;gap:5px}
+.dwf-step{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);font-size:11px;color:var(--text2)}
+.dwf-step.done{border-color:var(--green);background:var(--greenbg);color:var(--green)}
+.dwf-step.act{border-color:var(--gold);background:var(--goldbg);color:var(--gold)}
+/* Payment rows in popup */
+.payrow{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;border-radius:6px;font-size:11px;margin-bottom:5px}
+/* Info box */
+.infobox{border-radius:6px;padding:8px 10px;margin-bottom:10px;font-size:11px;line-height:1.5}
+/* SOP steps */
+.sopstep{padding:6px 10px;background:var(--bg3);border-radius:5px;font-size:11px;color:var(--text2);margin-bottom:4px}
+/* Toast */
+.toast{display:none;position:absolute;bottom:14px;right:14px;background:var(--green);color:#fff;padding:7px 13px;border-radius:6px;font-size:11px;font-weight:600;z-index:200}
+.dark .toast{color:#000}
+
+.sb-focus{padding:9px 8px 12px}
+.focus-box{background:var(--goldbg);border:1px solid var(--goldb);border-radius:6px;padding:8px 10px}
+.focus-title{font-size:9px;font-weight:700;color:var(--gold);margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px}
+.focus-item{font-size:10px;color:var(--text2);line-height:1.7}
+</style>
+
+<h2 style="position:absolute;width:1px;height:1px;overflow:hidden">Your Story Films Business Hub — interactive prototype</h2>
+
+<div class="app dark" id="app">
+<!-- SIDEBAR -->
+<div class="sb">
+  <div class="brand">
+    <div class="blogo">YS</div>
+    <div><div class="bname">Your Story Films</div><div class="bsub">Business Hub</div></div>
+  </div>
+  <div class="ns">Main</div>
+  <div class="ni on" onclick="G('dash')"><i class="ti ti-layout-dashboard" aria-hidden="true"></i>CEO Dashboard</div>
+  <div class="ns">CRM</div>
+  <div class="ni" onclick="G('leads')"><i class="ti ti-target" aria-hidden="true"></i>Lead Management<span class="nbadge">7</span></div>
+  <div class="ni" onclick="G('clients')"><i class="ti ti-users" aria-hidden="true"></i>Client CRM</div>
+  <div class="ni" onclick="G('projects')"><i class="ti ti-movie" aria-hidden="true"></i>Projects</div>
+  <div class="ns">Finance</div>
+  <div class="ni" onclick="G('payments')"><i class="ti ti-cash" aria-hidden="true"></i>Payments<span class="nbadge">3</span></div>
+  <div class="ns">HR</div>
+  <div class="ni" onclick="G('emp')"><i class="ti ti-id-badge" aria-hidden="true"></i>Employees</div>
+  <div class="ni" onclick="G('attend')"><i class="ti ti-calendar-check" aria-hidden="true"></i>Attendance</div>
+  <div class="ns">Operations</div>
+  <div class="ni" onclick="G('equip')"><i class="ti ti-camera" aria-hidden="true"></i>Equipment</div>
+  <div class="ni" onclick="G('content')"><i class="ti ti-device-tv" aria-hidden="true"></i>Content</div>
+  <div class="ni" onclick="G('vendors')"><i class="ti ti-handshake" aria-hidden="true"></i>Vendors</div>
+  <div class="ns">Admin</div>
+  <div class="ni" onclick="G('sops')"><i class="ti ti-clipboard-list" aria-hidden="true"></i>SOP Library</div>
+  <div class="sb-focus">
+    <div class="focus-box">
+      <div class="focus-title">Today's focus</div>
+      <div class="focus-item">3 follow-ups due<br>2 payments overdue<br>1 shoot tomorrow</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div><div class="tbtitle" id="ptitle">CEO Dashboard</div><div class="tbsub" id="psub">Friday, 13 June 2025</div></div>
+    <div class="tbr">
+      <input class="srch" type="text" placeholder="Search...">
+      <div class="tmbtn" onclick="toggleTheme()" id="tmbtn"><i class="ti ti-sun" id="tmico" aria-hidden="true"></i><span id="tmlbl">Light</span></div>
+      <div class="btn pri" onclick="showToast()"><i class="ti ti-plus" aria-hidden="true"></i>New Lead</div>
+    </div>
+  </div>
+
+  <div class="content">
+
+<!-- DASHBOARD -->
+<div id="pg-dash" class="page on">
+  <div class="g4" style="margin-bottom:10px">
+    <div class="kpi"><div class="kl">Total Revenue</div><div class="kv" style="color:var(--gold)">₹38.4L</div><div class="ks">FY 2024–25</div><div class="kc up">↑ +24% vs last year</div></div>
+    <div class="kpi"><div class="kl">Pending Payments</div><div class="kv" style="color:var(--coral)">₹7.2L</div><div class="ks">Across 8 clients</div><div class="kc dn">3 overdue</div></div>
+    <div class="kpi"><div class="kl">Active Bookings</div><div class="kv">34</div><div class="ks">Jun–Dec 2025</div><div class="kc up">↑ +8 this month</div></div>
+    <div class="kpi"><div class="kl">Leads this month</div><div class="kv">47</div><div class="ks">23 hot, 12 warm</div><div class="kc up">↑ +31% vs May</div></div>
+  </div>
+  <div class="g4" style="margin-bottom:13px">
+    <div class="kpi"><div class="kl">In Editing</div><div class="kv">11</div></div>
+    <div class="kpi"><div class="kl">Pending Delivery</div><div class="kv" style="color:var(--amber)">6</div></div>
+    <div class="kpi"><div class="kl">Team Size</div><div class="kv">14</div></div>
+    <div class="kpi"><div class="kl">Conversion</div><div class="kv" style="color:var(--teal)">38%</div></div>
+  </div>
+  <div class="g2" style="margin-bottom:11px">
+    <div class="card">
+      <div class="ct">Monthly Revenue (₹ Lakhs)</div>
+      <div class="bw">
+        <div class="bar" style="height:42%;background:var(--gold);opacity:.45"></div>
+        <div class="bar" style="height:52%;background:var(--gold);opacity:.5"></div>
+        <div class="bar" style="height:38%;background:var(--gold);opacity:.45"></div>
+        <div class="bar" style="height:68%;background:var(--gold);opacity:.6"></div>
+        <div class="bar" style="height:57%;background:var(--gold);opacity:.55"></div>
+        <div class="bar" style="height:78%;background:var(--gold);opacity:.78"></div>
+        <div class="bar" style="height:100%;background:var(--gold)"></div>
+        <div class="bar" style="height:88%;background:var(--gold);opacity:.88"></div>
+        <div class="bar" style="height:74%;background:var(--gold);opacity:.72"></div>
+        <div class="bar" style="height:58%;background:var(--gold);opacity:.58"></div>
+        <div class="bar" style="height:38%;background:var(--gold);opacity:.42"></div>
+        <div class="bar" style="height:32%;background:var(--gold);opacity:.38"></div>
+      </div>
+      <div style="display:flex;gap:4px;margin-top:3px"><div class="bl">J</div><div class="bl">F</div><div class="bl">M</div><div class="bl">A</div><div class="bl">M</div><div class="bl">J</div><div class="bl">J</div><div class="bl">A</div><div class="bl">S</div><div class="bl">O</div><div class="bl">N</div><div class="bl">D</div></div>
+      <div style="margin-top:7px;display:flex;gap:12px;font-size:9px"><span style="color:var(--text3)">Peak: <span style="color:var(--gold);font-weight:600">Jul ₹6.1L</span></span><span style="color:var(--text3)">This month: <span style="color:var(--green);font-weight:600">₹4.9L</span></span></div>
+    </div>
+    <div class="card">
+      <div class="ct">Live Activity</div>
+      <div class="ar"><div class="adot" style="background:var(--green)"></div><div><div style="font-size:11px;color:var(--text2)">Rohan & Priya booked — ₹2.4L confirmed</div><div style="font-size:9px;color:var(--text3);margin-top:1px">2 mins ago</div></div></div>
+      <div class="ar"><div class="adot" style="background:var(--amber)"></div><div><div style="font-size:11px;color:var(--text2)">Arjun Kumar payment overdue — ₹60K</div><div style="font-size:9px;color:var(--text3);margin-top:1px">1 hr ago</div></div></div>
+      <div class="ar"><div class="adot" style="background:var(--blue)"></div><div><div style="font-size:11px;color:var(--text2)">New lead: Mehta Wedding · ₹3.5L</div><div style="font-size:9px;color:var(--text3);margin-top:1px">3 hrs ago</div></div></div>
+      <div class="ar"><div class="adot" style="background:var(--teal)"></div><div><div style="font-size:11px;color:var(--text2)">Sharma album sent for client review</div><div style="font-size:9px;color:var(--text3);margin-top:1px">5 hrs ago</div></div></div>
+      <div class="ar"><div class="adot" style="background:var(--green)"></div><div><div style="font-size:11px;color:var(--text2)">Singh wedding delivered — closed</div><div style="font-size:9px;color:var(--text3);margin-top:1px">Yesterday</div></div></div>
+    </div>
+  </div>
+  <div class="g3">
+    <div class="card">
+      <div class="ct">Pipeline snapshot</div>
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:10px;color:var(--text2)">New Leads</span><div style="display:flex;align-items:center;gap:6px"><div class="prog" style="width:65px"><div class="progf" style="width:75%;background:var(--blue)"></div></div><span style="font-size:10px;color:var(--text2)">12</span></div></div>
+        <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:10px;color:var(--text2)">Follow Up</span><div style="display:flex;align-items:center;gap:6px"><div class="prog" style="width:65px"><div class="progf" style="width:60%;background:var(--amber)"></div></div><span style="font-size:10px;color:var(--text2)">8</span></div></div>
+        <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:10px;color:var(--text2)">Meeting</span><div style="display:flex;align-items:center;gap:6px"><div class="prog" style="width:65px"><div class="progf" style="width:40%;background:var(--purple)"></div></div><span style="font-size:10px;color:var(--text2)">5</span></div></div>
+        <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:10px;color:var(--text2)">Proposal</span><div style="display:flex;align-items:center;gap:6px"><div class="prog" style="width:65px"><div class="progf" style="width:30%;background:var(--teal)"></div></div><span style="font-size:10px;color:var(--text2)">4</span></div></div>
+        <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:10px;color:var(--text2)">Booked</span><div style="display:flex;align-items:center;gap:6px"><div class="prog" style="width:65px"><div class="progf" style="width:90%;background:var(--green)"></div></div><span style="font-size:10px;color:var(--text2)">34</span></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ct">Today's schedule</div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div style="background:var(--bg3);border-left:2px solid var(--gold);padding:6px 8px;border-radius:0 5px 5px 0"><div style="font-size:10px;font-weight:600;color:var(--text)">10:00 AM — Client Meet</div><div style="font-size:9px;color:var(--text3)">Verma family · Budget discussion</div></div>
+        <div style="background:var(--bg3);border-left:2px solid var(--purple);padding:6px 8px;border-radius:0 5px 5px 0"><div style="font-size:10px;font-weight:600;color:var(--text)">2:00 PM — Shoot Day</div><div style="font-size:9px;color:var(--text3)">Kapoor Pre-wedding · Lodhi Garden</div></div>
+        <div style="background:var(--bg3);border-left:2px solid var(--teal);padding:6px 8px;border-radius:0 5px 5px 0"><div style="font-size:10px;font-weight:600;color:var(--text)">5:30 PM — Review Call</div><div style="font-size:9px;color:var(--text3)">Sharma album final approval</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ct">Weekly review</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+        <div style="text-align:center;background:var(--bg3);padding:8px;border-radius:6px"><div style="font-size:16px;font-weight:700;color:var(--text)">18</div><div style="font-size:9px;color:var(--text3)">Leads</div></div>
+        <div style="text-align:center;background:var(--bg3);padding:8px;border-radius:6px"><div style="font-size:16px;font-weight:700;color:var(--text)">6</div><div style="font-size:9px;color:var(--text3)">Meetings</div></div>
+        <div style="text-align:center;background:var(--bg3);padding:8px;border-radius:6px"><div style="font-size:16px;font-weight:700;color:var(--green)">4</div><div style="font-size:9px;color:var(--text3)">Bookings</div></div>
+        <div style="text-align:center;background:var(--bg3);padding:8px;border-radius:6px"><div style="font-size:15px;font-weight:700;color:var(--gold)">₹8.2L</div><div style="font-size:9px;color:var(--text3)">Collected</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LEADS -->
+<div id="pg-leads" class="page">
+  <div class="tabs" id="lt"><div class="tab on" onclick="ST('lt',this,'lv','all')">All (47)</div><div class="tab" onclick="ST('lt',this,'lv','hot')">Hot (23)</div><div class="tab" onclick="ST('lt',this,'lv','fu')">Follow-ups (7)</div><div class="tab" onclick="ST('lt',this,'lv','cold')">Cold (12)</div></div>
+  <div id="lv-all" class="lv card">
+    <div class="tw"><table><thead><tr><th>Name</th><th>Wedding</th><th>City</th><th>Budget</th><th>Source</th><th>Score</th><th>Follow-up</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr class="cr" onclick="OP('lead','ananya')"><td><div style="display:flex;align-items:center;gap:6px"><div class="av" style="background:var(--redbg);color:var(--red)">AK</div>Ananya & Karan</div></td><td>Aug 15</td><td>Delhi</td><td style="color:var(--gold);font-weight:600">₹4.5L</td><td>Instagram</td><td><div class="sco" style="background:var(--redbg);color:var(--red)">9</div></td><td style="color:var(--coral);font-weight:500">Today</td><td><span class="pill phot">Hot</span></td></tr>
+      <tr class="cr" onclick="OP('lead','sanya')"><td><div style="display:flex;align-items:center;gap:6px"><div class="av" style="background:var(--purplebg);color:var(--purple)">SM</div>Sanya & Mihir</div></td><td>Nov 3</td><td>Gurgaon</td><td style="color:var(--gold);font-weight:600">₹3.2L</td><td>Referral</td><td><div class="sco" style="background:var(--purplebg);color:var(--purple)">7</div></td><td>Jun 15</td><td><span class="pill pf">Follow Up</span></td></tr>
+      <tr class="cr" onclick="OP('lead','ritu')"><td><div style="display:flex;align-items:center;gap:6px"><div class="av" style="background:var(--greenbg);color:var(--green)">RP</div>Ritu & Prashant</div></td><td>Jul 22</td><td>Noida</td><td style="color:var(--gold);font-weight:600">₹5.8L</td><td>Website</td><td><div class="sco" style="background:var(--redbg);color:var(--red)">9</div></td><td style="color:var(--coral);font-weight:500">Today</td><td><span class="pill phot">Hot</span></td></tr>
+      <tr class="cr" onclick="OP('lead','neha')"><td><div style="display:flex;align-items:center;gap:6px"><div class="av" style="background:var(--bluebg);color:var(--blue)">NS</div>Neha & Sameer</div></td><td>Feb 14</td><td>Mumbai</td><td style="color:var(--gold);font-weight:600">₹2.8L</td><td>JustDial</td><td><div class="sco" style="background:var(--bluebg);color:var(--blue)">5</div></td><td>Jun 20</td><td><span class="pill pn">New</span></td></tr>
+      <tr class="cr" onclick="OP('lead','mehta')"><td><div style="display:flex;align-items:center;gap:6px"><div class="av" style="background:var(--amberbg);color:var(--amber)">MG</div>Mehta & Gupta</div></td><td>Dec 5</td><td>Delhi</td><td style="color:var(--gold);font-weight:600">₹3.5L</td><td>Instagram</td><td><div class="sco" style="background:var(--amberbg);color:var(--amber)">6</div></td><td>Jun 16</td><td><span class="pill pm">Meeting</span></td></tr>
+      <tr class="cr" onclick="OP('lead','vidya')"><td><div style="display:flex;align-items:center;gap:6px"><div class="av" style="background:var(--bg3);color:var(--text3)">VC</div>Vidya & Chetan</div></td><td>Mar 12</td><td>Faridabad</td><td style="color:var(--gold);font-weight:600">₹1.8L</td><td>Walk-in</td><td><div class="sco" style="background:var(--bg3);color:var(--text3)">3</div></td><td style="color:var(--text3)">18d ago</td><td><span class="pill pcold">Cold</span></td></tr>
+      <tr class="cr" onclick="OP('lead','pooja')"><td><div style="display:flex;align-items:center;gap:6px"><div class="av" style="background:var(--greenbg);color:var(--green)">PJ</div>Pooja & Jay</div></td><td>Sep 7</td><td>Delhi</td><td style="color:var(--gold);font-weight:600">₹4.1L</td><td>Referral</td><td><div class="sco" style="background:var(--redbg);color:var(--red)">8</div></td><td style="color:var(--coral);font-weight:500">Today</td><td><span class="pill phot">Hot</span></td></tr>
+    </tbody></table></div>
+  </div>
+  <div id="lv-hot" class="lv card" style="display:none">
+    <div class="infobox" style="background:var(--redbg);color:var(--coral);border:1px solid rgba(176,58,26,.2)">23 hot leads — weddings within 3 months. Follow up today for maximum conversion.</div>
+    <div class="tw"><table><thead><tr><th>Name</th><th>Wedding</th><th>Days Left</th><th>Budget</th><th>Follow-up</th></tr></thead><tbody>
+      <tr class="cr" onclick="OP('lead','ananya')"><td>Ananya & Karan</td><td>Aug 15</td><td style="color:var(--coral);font-weight:500">63 days</td><td style="color:var(--gold);font-weight:600">₹4.5L</td><td style="color:var(--coral);font-weight:500">TODAY</td></tr>
+      <tr class="cr" onclick="OP('lead','ritu')"><td>Ritu & Prashant</td><td>Jul 22</td><td style="color:var(--coral);font-weight:500">39 days</td><td style="color:var(--gold);font-weight:600">₹5.8L</td><td style="color:var(--coral);font-weight:500">TODAY</td></tr>
+      <tr class="cr" onclick="OP('lead','pooja')"><td>Pooja & Jay</td><td>Sep 7</td><td style="color:var(--amber);font-weight:500">86 days</td><td style="color:var(--gold);font-weight:600">₹4.1L</td><td style="color:var(--coral);font-weight:500">TODAY</td></tr>
+    </tbody></table></div>
+  </div>
+  <div id="lv-fu" class="lv card" style="display:none">
+    <div class="infobox" style="background:var(--goldbg);color:var(--gold);border:1px solid var(--goldb)">7 follow-ups due today — contact before EOD.</div>
+    <div class="tw"><table><thead><tr><th>Name</th><th>Phone</th><th>Last Contact</th><th>Budget</th></tr></thead><tbody>
+      <tr class="cr" onclick="OP('lead','ananya')"><td>Ananya & Karan</td><td>+91 98765 43210</td><td style="color:var(--amber)">5 days ago</td><td style="color:var(--gold);font-weight:600">₹4.5L</td></tr>
+      <tr class="cr" onclick="OP('lead','ritu')"><td>Ritu & Prashant</td><td>+91 87654 32109</td><td style="color:var(--coral)">8 days ago</td><td style="color:var(--gold);font-weight:600">₹5.8L</td></tr>
+      <tr class="cr" onclick="OP('lead','pooja')"><td>Pooja & Jay</td><td>+91 76543 21098</td><td style="color:var(--amber)">3 days ago</td><td style="color:var(--gold);font-weight:600">₹4.1L</td></tr>
+    </tbody></table></div>
+  </div>
+  <div id="lv-cold" class="lv card" style="display:none">
+    <div class="infobox" style="background:var(--bg3);color:var(--text3);border:1px solid var(--border2)">12 cold leads — no contact 15+ days. Send re-engagement message.</div>
+    <div class="tw"><table><thead><tr><th>Name</th><th>Last Contact</th><th>Budget</th><th>Days Silent</th></tr></thead><tbody>
+      <tr class="cr" onclick="OP('lead','vidya')"><td>Vidya & Chetan</td><td>May 26</td><td style="color:var(--gold);font-weight:600">₹1.8L</td><td style="color:var(--text3)">18 days</td></tr>
+      <tr class="cr" onclick="OP('lead','arun')"><td>Arun & Kavya</td><td>May 20</td><td style="color:var(--gold);font-weight:600">₹2.1L</td><td style="color:var(--text3)">24 days</td></tr>
+    </tbody></table></div>
+  </div>
+</div>
+
+<!-- CLIENTS -->
+<div id="pg-clients" class="page">
+  <div class="tabs" id="ct2"><div class="tab on" onclick="ST('ct2',this,'cv','kanban')">Kanban</div><div class="tab" onclick="ST('ct2',this,'cv','table')">Table</div></div>
+  <div id="cv-kanban" class="cv">
+    <div class="kbn">
+      <div class="kcol"><div class="kh">New Lead <span class="kn">4</span></div>
+        <div class="kcard" onclick="OP('client','mehta')"><div class="kcname">Mehta & Gupta</div><div class="kcsub">Delhi · Instagram</div><div class="kcbud">₹3.5L</div></div>
+        <div class="kcard" onclick="OP('client','neha_c')"><div class="kcname">Neha & Sameer</div><div class="kcsub">Mumbai</div><div class="kcbud">₹2.8L</div></div>
+      </div>
+      <div class="kcol"><div class="kh">Follow Up <span class="kn">5</span></div>
+        <div class="kcard" onclick="OP('client','sanya_c')"><div class="kcname">Sanya & Mihir</div><div class="kcsub">Gurgaon · Referral</div><div class="kcbud">₹3.2L</div></div>
+        <div class="kcard" onclick="OP('client','divya')"><div class="kcname">Divya & Rohit</div><div class="kcsub">Delhi</div><div class="kcbud">₹2.5L</div></div>
+      </div>
+      <div class="kcol"><div class="kh">Meeting <span class="kn">3</span></div>
+        <div class="kcard" onclick="OP('client','vikram_c')"><div class="kcname">Vikram & Sneha</div><div class="kcsub">Noida</div><div class="kcbud">₹4.2L</div></div>
+      </div>
+      <div class="kcol"><div class="kh">Proposal <span class="kn">4</span></div>
+        <div class="kcard" onclick="OP('client','arun_c')"><div class="kcname">Arun & Priya</div><div class="kcsub">Delhi</div><div class="kcbud">₹5.1L</div></div>
+      </div>
+      <div class="kcol"><div class="kh">Booked <span class="kn">8</span></div>
+        <div class="kcard" style="border-color:var(--green)" onclick="OP('client','rohan')"><div class="kcname">Rohan & Priya</div><div class="kcsub">Advance paid ✓</div><div class="kcbud">₹2.4L</div></div>
+        <div class="kcard" style="border-color:var(--green)" onclick="OP('client','kapoor')"><div class="kcname">Kapoor Family</div><div class="kcsub">Full paid ✓</div><div class="kcbud">₹6.2L</div></div>
+      </div>
+      <div class="kcol"><div class="kh">Editing <span class="kn">6</span></div>
+        <div class="kcard" onclick="OP('client','sharma')"><div class="kcname">Sharma Wedding</div><div class="kcsub">Editor: Riya D.</div><div class="kcbud">₹4.4L</div></div>
+        <div class="kcard" onclick="OP('client','ananya_c')"><div class="kcname">Ananya & Vivek</div><div class="kcsub">Editor: Karan R.</div><div class="kcbud">₹3.1L</div></div>
+      </div>
+      <div class="kcol"><div class="kh">Delivered <span class="kn">9</span></div>
+        <div class="kcard" style="opacity:.65" onclick="OP('client','singh')"><div class="kcname">Singh Wedding</div><div class="kcsub">Closed ✓</div><div class="kcbud">₹3.8L</div></div>
+      </div>
+    </div>
+  </div>
+  <div id="cv-table" class="cv card" style="display:none">
+    <div class="tw"><table><thead><tr><th>Client</th><th>Wedding</th><th>Package</th><th>Total</th><th>Balance</th><th>Status</th></tr></thead><tbody>
+      <tr class="cr" onclick="OP('client','rohan')"><td><strong>Rohan & Priya</strong></td><td>Jul 5, 2025</td><td>Premium</td><td style="color:var(--gold);font-weight:600">₹2,40,000</td><td style="color:var(--green)">₹0</td><td><span class="pill pb">Booked</span></td></tr>
+      <tr class="cr" onclick="OP('client','kapoor')"><td><strong>Kapoor Family</strong></td><td>Jun 14, 2025</td><td>Elite</td><td style="color:var(--gold);font-weight:600">₹6,20,000</td><td style="color:var(--green)">₹0</td><td><span class="pill pb">Booked</span></td></tr>
+      <tr class="cr" onclick="OP('client','sharma')"><td><strong>Sharma Wedding</strong></td><td>May 3, 2025</td><td>Classic</td><td style="color:var(--gold);font-weight:600">₹4,40,000</td><td style="color:var(--amber)">₹80,000</td><td><span class="pill pe">Editing</span></td></tr>
+      <tr class="cr" onclick="OP('client','singh')"><td><strong>Singh Wedding</strong></td><td>May 18, 2025</td><td>Premium</td><td style="color:var(--gold);font-weight:600">₹3,80,000</td><td style="color:var(--green)">₹0</td><td><span class="pill pd">Delivered</span></td></tr>
+    </tbody></table></div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<div id="pg-projects" class="page">
+  <div class="card">
+    <div class="ct">Active wedding projects — click any row for full details</div>
+    <div class="tw"><table><thead><tr><th>Client</th><th>Wedding Date</th><th>Photographer</th><th>Editor</th><th>Deadline</th><th>Priority</th><th>Stage</th></tr></thead><tbody>
+      <tr class="cr" onclick="OP('project','kapoor')"><td><strong>Kapoor Family</strong></td><td style="color:var(--coral);font-weight:500">Jun 14 — Tomorrow!</td><td><div style="display:flex;align-items:center;gap:5px"><div class="av" style="background:var(--tealbg);color:var(--teal);width:20px;height:20px;font-size:8px">KR</div>Karan R.</div></td><td>—</td><td style="color:var(--coral)">Jul 14</td><td><span class="pill phot">Urgent</span></td><td><span class="pill pb">Shooting</span></td></tr>
+      <tr class="cr" onclick="OP('project','sharma')"><td><strong>Sharma Wedding</strong></td><td>May 3, 2025</td><td><div style="display:flex;align-items:center;gap:5px"><div class="av" style="background:var(--amberbg);color:var(--amber);width:20px;height:20px;font-size:8px">NK</div>Neha K.</div></td><td><div style="display:flex;align-items:center;gap:5px"><div class="av" style="background:var(--greenbg);color:var(--green);width:20px;height:20px;font-size:8px">AM</div>Arjun M.</div></td><td style="color:var(--amber)">Jun 20</td><td><span class="pill pf">High</span></td><td><span class="pill pe">Client Review</span></td></tr>
+      <tr class="cr" onclick="OP('project','ananya_p')"><td><strong>Ananya & Vivek</strong></td><td>Apr 18, 2025</td><td><div style="display:flex;align-items:center;gap:5px"><div class="av" style="background:var(--tealbg);color:var(--teal);width:20px;height:20px;font-size:8px">KR</div>Karan R.</div></td><td><div style="display:flex;align-items:center;gap:5px"><div class="av" style="background:var(--purplebg);color:var(--purple);width:20px;height:20px;font-size:8px">RD</div>Riya D.</div></td><td>Jun 25</td><td><span class="pill pcold">Normal</span></td><td><span class="pill pe">Editing</span></td></tr>
+      <tr class="cr" onclick="OP('project','rohan_p')"><td><strong>Rohan & Priya</strong></td><td>Jul 5, 2025</td><td><div style="display:flex;align-items:center;gap:5px"><div class="av" style="background:var(--amberbg);color:var(--amber);width:20px;height:20px;font-size:8px">NK</div>Neha K.</div></td><td>—</td><td>Aug 5</td><td><span class="pill pcold">Normal</span></td><td><span class="pill pn">Pre Production</span></td></tr>
+    </tbody></table></div>
+  </div>
+</div>
+
+<!-- PAYMENTS -->
+<div id="pg-payments" class="page">
+  <div class="g4" style="margin-bottom:11px">
+    <div class="kpi"><div class="kl">Contracted</div><div class="kv" style="color:var(--gold)">₹42.6L</div></div>
+    <div class="kpi"><div class="kl">Collected</div><div class="kv" style="color:var(--green)">₹35.4L</div></div>
+    <div class="kpi"><div class="kl">Outstanding</div><div class="kv" style="color:var(--coral)">₹7.2L</div></div>
+    <div class="kpi"><div class="kl">Overdue</div><div class="kv" style="color:var(--coral)">₹1.8L</div><div class="ks">3 clients</div></div>
+  </div>
+  <div class="card">
+    <div class="ct">Payment tracker — click any row for installment details</div>
+    <div class="tw"><table><thead><tr><th>Client</th><th>Total</th><th>Advance</th><th>2nd</th><th>Final</th><th>Balance</th><th>Due</th><th>Status</th></tr></thead><tbody>
+      <tr class="cr" onclick="OP('payment','kapoor')"><td><strong>Kapoor Family</strong></td><td style="color:var(--gold);font-weight:600">₹6,20,000</td><td style="color:var(--green)">₹1,50,000 ✓</td><td style="color:var(--green)">₹2,00,000 ✓</td><td style="color:var(--green)">₹2,70,000 ✓</td><td style="color:var(--green);font-weight:600">₹0</td><td>—</td><td><span class="pill ppaid">Paid</span></td></tr>
+      <tr class="cr" onclick="OP('payment','rohan')"><td><strong>Rohan & Priya</strong></td><td style="color:var(--gold);font-weight:600">₹2,40,000</td><td style="color:var(--green)">₹60,000 ✓</td><td style="color:var(--text3)">Pending</td><td style="color:var(--text3)">Pending</td><td style="color:var(--amber);font-weight:600">₹1,80,000</td><td>Jul 5</td><td><span class="pill ppart">Partial</span></td></tr>
+      <tr class="cr" onclick="OP('payment','sharma')"><td><strong>Sharma Wedding</strong></td><td style="color:var(--gold);font-weight:600">₹4,40,000</td><td style="color:var(--green)">₹1,00,000 ✓</td><td style="color:var(--green)">₹2,60,000 ✓</td><td style="color:var(--text3)">Pending</td><td style="color:var(--amber);font-weight:600">₹80,000</td><td>Jun 20</td><td><span class="pill ppart">Partial</span></td></tr>
+      <tr class="cr" onclick="OP('payment','arjun')"><td><strong>Arjun Kumar</strong></td><td style="color:var(--gold);font-weight:600">₹3,10,000</td><td style="color:var(--green)">₹80,000 ✓</td><td style="color:var(--coral)">₹60,000 ✗</td><td style="color:var(--text3)">Pending</td><td style="color:var(--coral);font-weight:600">₹2,30,000</td><td style="color:var(--coral);font-weight:500">Jun 1 — overdue</td><td><span class="pill po">Overdue</span></td></tr>
+      <tr class="cr" onclick="OP('payment','singh')"><td><strong>Singh Wedding</strong></td><td style="color:var(--gold);font-weight:600">₹3,80,000</td><td style="color:var(--green)">₹80,000 ✓</td><td style="color:var(--green)">₹1,50,000 ✓</td><td style="color:var(--green)">₹1,50,000 ✓</td><td style="color:var(--green);font-weight:600">₹0</td><td>—</td><td><span class="pill ppaid">Paid</span></td></tr>
+    </tbody></table></div>
+  </div>
+</div>
+
+<!-- EMPLOYEES -->
+<div id="pg-emp" class="page">
+  <div class="g3" style="margin-bottom:11px">
+    <div class="kpi"><div class="kl">Active Staff</div><div class="kv">9</div></div>
+    <div class="kpi"><div class="kl">Freelancers</div><div class="kv">5</div></div>
+    <div class="kpi"><div class="kl">On Probation</div><div class="kv" style="color:var(--amber)">2</div></div>
+  </div>
+  <div class="card">
+    <div class="ct">Team directory — click any row for profile details</div>
+    <div class="tw"><table><thead><tr><th>Employee</th><th>Designation</th><th>Dept</th><th>Joined</th><th>Reports To</th><th>Status</th></tr></thead><tbody>
+      <tr class="cr" onclick="OP('emp','amit')"><td><div style="display:flex;align-items:center;gap:6px"><div class="av" style="background:var(--purplebg);color:var(--purple)">AS</div><div><div style="font-weight:500">Amit Sharma</div><div style="font-size:9px;color:var(--text3)">amit@ysfilms.in</div></div></div></td><td>Lead Photographer</td><td>Production</td><td>Jan 2022</td><td>CEO</td><td><span class="pill pact">Active</span></td></tr>
+      <tr class="cr" onclick="OP('emp','riya')"><td><div style="display:flex;align-items:center;gap:6px"><div class="av" style="background:var(--greenbg);color:var(--green)">RD</div><div><div style="font-weight:500">Riya Desai</div><div style="font-size:9px;color:var(--text3)">riya@ysfilms.in</div></div></div></td><td>Lead Editor</td><td>Post Production</td><td>Mar 2022</td><td>CEO</td><td><span class="pill pact">Active</span></td></tr>
+      <tr class="cr" onclick="OP('emp','karan')"><td><div style="display:flex;align-items:center;gap:6px"><div class="av" style="background:var(--tealbg);color:var(--teal)">KR</div><div><div style="font-weight:500">Karan Rawat</div><div style="font-size:9px;color:var(--text3)">karan@ysfilms.in</div></div></div></td><td>Videographer</td><td>Production</td><td>Aug 2023</td><td>Amit S.</td><td><span class="pill pact">Active</span></td></tr>
+      <tr class="cr" onclick="OP('emp','neha_e')"><td><div style="display:flex;align-items:center;gap:6px"><div class="av" style="background:var(--amberbg);color:var(--amber)">NK</div><div><div style="font-weight:500">Neha Kapoor</div><div style="font-size:9px;color:var(--text3)">neha@ysfilms.in</div></div></div></td><td>Photographer</td><td>Production</td><td>Feb 2024</td><td>Amit S.</td><td><span class="pill pprob">Probation</span></td></tr>
+      <tr class="cr" onclick="OP('emp','priya_e')"><td><div style="display:flex;align-items:center;gap:6px"><div class="av" style="background:var(--bluebg);color:var(--blue)">PS</div><div><div style="font-weight:500">Priya Singh</div><div style="font-size:9px;color:var(--text3)">priya@ysfilms.in</div></div></div></td><td>Sales Executive</td><td>CRM</td><td>Jun 2023</td><td>CEO</td><td><span class="pill pact">Active</span></td></tr>
+      <tr class="cr" onclick="OP('emp','vikram_e')"><td><div style="display:flex;align-items:center;gap:6px"><div class="av" style="background:var(--bg3);color:var(--text3)">VK</div><div><div style="font-weight:500">Vikram Kaul</div><div style="font-size:9px;color:var(--text3)">Freelance</div></div></div></td><td>Album Designer</td><td>Design</td><td>—</td><td>Riya D.</td><td><span class="pill pfree">Freelancer</span></td></tr>
+    </tbody></table></div>
+  </div>
+</div>
+
+<!-- ATTENDANCE -->
+<div id="pg-attend" class="page">
+  <div class="card" style="margin-bottom:11px">
+    <div class="ct">Today · June 13, 2025 — click any row for full log</div>
+    <div class="tw"><table><thead><tr><th>Employee</th><th>Check In</th><th>Check Out</th><th>Hours</th><th>Status</th></tr></thead><tbody>
+      <tr class="cr" onclick="OP('attend','amit')"><td><div style="display:flex;align-items:center;gap:6px"><div class="av" style="background:var(--purplebg);color:var(--purple)">AS</div>Amit Sharma</div></td><td style="color:var(--green)">9:02 AM</td><td style="color:var(--text3)">—</td><td>—</td><td><span class="pill pact">Present</span></td></tr>
+      <tr class="cr" onclick="OP('attend','riya')"><td><div style="display:flex;align-items:center;gap:6px"><div class="av" style="background:var(--greenbg);color:var(--green)">RD</div>Riya Desai</div></td><td style="color:var(--green)">9:45 AM</td><td style="color:var(--text3)">—</td><td>—</td><td><span class="pill pact">Present</span></td></tr>
+      <tr class="cr" onclick="OP('attend','karan')"><td><div style="display:flex;align-items:center;gap:6px"><div class="av" style="background:var(--tealbg);color:var(--teal)">KR</div>Karan Rawat</div></td><td style="color:var(--amber)">On Shoot</td><td style="color:var(--text3)">—</td><td>—</td><td><span class="pill pact">On Duty</span></td></tr>
+      <tr class="cr" onclick="OP('attend','neha_a')"><td><div style="display:flex;align-items:center;gap:6px"><div class="av" style="background:var(--amberbg);color:var(--amber)">NK</div>Neha Kapoor</div></td><td style="color:var(--text3)">—</td><td style="color:var(--text3)">—</td><td>—</td><td><span class="pill pf">Leave</span></td></tr>
+      <tr class="cr" onclick="OP('attend','priya_a')"><td><div style="display:flex;align-items:center;gap:6px"><div class="av" style="background:var(--bluebg);color:var(--blue)">PS</div>Priya Singh</div></td><td style="color:var(--green)">9:15 AM</td><td style="color:var(--text3)">—</td><td>—</td><td><span class="pill pact">Present</span></td></tr>
+    </tbody></table></div>
+  </div>
+  <div class="card">
+    <div class="ct">Leave request — Neha Kapoor · click to review</div>
+    <div style="font-size:11px;color:var(--text2);margin-bottom:7px">Sick Leave · Jun 13–14, 2025 · Reason: Fever</div>
+    <div class="wf"><div class="ws done"><i class="ti ti-check" aria-hidden="true"></i> Submitted</div><div class="wa">→</div><div class="ws act"><i class="ti ti-clock" aria-hidden="true"></i> Manager Review</div><div class="wa">→</div><div class="ws">HR Notified</div><div class="wa">→</div><div class="ws">Approved</div></div>
+    <div style="display:flex;gap:7px;margin-top:9px">
+      <div class="btn" style="border-color:var(--green);color:var(--green)" onclick="OP('attend','neha_a')"><i class="ti ti-eye" aria-hidden="true"></i> View Request</div>
+    </div>
+  </div>
+</div>
+
+<!-- EQUIPMENT -->
+<div id="pg-equip" class="page">
+  <div class="g4" style="margin-bottom:11px">
+    <div class="kpi"><div class="kl">Total Items</div><div class="kv">38</div></div>
+    <div class="kpi"><div class="kl">In Use</div><div class="kv" style="color:var(--amber)">14</div></div>
+    <div class="kpi"><div class="kl">Available</div><div class="kv" style="color:var(--green)">21</div></div>
+    <div class="kpi"><div class="kl">Maintenance</div><div class="kv" style="color:var(--coral)">3</div></div>
+  </div>
+  <div class="card">
+    <div class="ct">Equipment inventory — click any item for full details</div>
+    <div class="eqi" onclick="OP('equip','cam1')"><div class="eqico">📷</div><div style="flex:1"><div style="font-size:11px;font-weight:600;color:var(--text)">Sony A7R IV · CAM-001</div><div style="font-size:9px;color:var(--text3)">Assigned: Amit Sharma · Warranty: Mar 2027</div></div><span class="pill pf">In Use</span></div>
+    <div class="eqi" onclick="OP('equip','cam2')"><div class="eqico">📷</div><div style="flex:1"><div style="font-size:11px;font-weight:600;color:var(--text)">Sony A7III · CAM-002</div><div style="font-size:9px;color:var(--text3)">Available · Warranty: Aug 2026</div></div><span class="pill pact">Available</span></div>
+    <div class="eqi" onclick="OP('equip','drone')"><div class="eqico">🚁</div><div style="flex:1"><div style="font-size:11px;font-weight:600;color:var(--text)">DJI Mavic 3 · DRN-001</div><div style="font-size:9px;color:var(--text3)">Assigned: Karan Rawat · Warranty: Dec 2025</div></div><span class="pill pf">In Use</span></div>
+    <div class="eqi" onclick="OP('equip','gimbal')"><div class="eqico">🔧</div><div style="flex:1"><div style="font-size:11px;font-weight:600;color:var(--text)">DJI RS3 Gimbal · GIM-002</div><div style="font-size:9px;color:var(--text3)">Motor issue — sent for repair</div></div><span class="pill po">Maintenance</span></div>
+    <div class="eqi" onclick="OP('equip','mac')"><div class="eqico">💻</div><div style="flex:1"><div style="font-size:11px;font-weight:600;color:var(--text)">MacBook Pro M3 · MAC-003</div><div style="font-size:9px;color:var(--text3)">Assigned: Riya Desai · Editing station</div></div><span class="pill pf">In Use</span></div>
+    <div class="eqi" onclick="OP('equip','hdd')"><div class="eqico">💾</div><div style="flex:1"><div style="font-size:11px;font-weight:600;color:var(--text)">4TB WD Hard Drives × 3 · HDD-001–003</div><div style="font-size:9px;color:var(--text3)">Backup drives · Storage room</div></div><span class="pill pact">Available</span></div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div id="pg-content" class="page">
+  <div class="tabs" id="ctnt"><div class="tab on" onclick="ST('ctnt',this,'cnt','cal')">Calendar</div><div class="tab" onclick="ST('ctnt',this,'cnt','pipe')">Pipeline</div></div>
+  <div id="cnt-cal">
+    <div class="cal" style="margin-bottom:5px">
+      <div style="text-align:center;font-size:8px;font-weight:700;color:var(--text3);padding:3px">MON</div><div style="text-align:center;font-size:8px;font-weight:700;color:var(--text3);padding:3px">TUE</div><div style="text-align:center;font-size:8px;font-weight:700;color:var(--text3);padding:3px">WED</div><div style="text-align:center;font-size:8px;font-weight:700;color:var(--text3);padding:3px">THU</div><div style="text-align:center;font-size:8px;font-weight:700;color:var(--text3);padding:3px">FRI</div><div style="text-align:center;font-size:8px;font-weight:700;color:var(--text3);padding:3px">SAT</div><div style="text-align:center;font-size:8px;font-weight:700;color:var(--text3);padding:3px">SUN</div>
+    </div>
+    <div class="cal">
+      <div class="cday"><div class="cdn">9</div></div><div class="cday"><div class="cdn">10</div></div><div class="cday"><div class="cdn">11</div></div>
+      <div class="cday ev" onclick="OP('content','reel1')"><div class="cdn">12</div><div class="cev">Kapoor BTS Reel</div></div>
+      <div class="cday ev" onclick="OP('content','pod8')"><div class="cdn">13</div><div class="cev">Podcast Ep. 8</div></div>
+      <div class="cday" style="border-color:var(--purple)" onclick="OP('content','shoot_kapoor')"><div class="cdn">14</div><div class="cev" style="color:var(--purple);background:var(--purplebg);border-color:var(--purple)">Kapoor Shoot</div></div>
+      <div class="cday"><div class="cdn">15</div></div><div class="cday"><div class="cdn">16</div></div>
+      <div class="cday ev" onclick="OP('content','reel2')"><div class="cdn">17</div><div class="cev">Tips Reel #12</div></div>
+      <div class="cday"><div class="cdn">18</div></div>
+      <div class="cday ev" onclick="OP('content','testi')"><div class="cdn">19</div><div class="cev">Singh Testimonial</div></div>
+      <div class="cday"><div class="cdn">20</div></div><div class="cday"><div class="cdn">21</div></div>
+      <div class="cday ev" onclick="OP('content','bts')"><div class="cdn">22</div><div class="cev">Wedding BTS post</div></div>
+    </div>
+  </div>
+  <div id="cnt-pipe" style="display:none">
+    <div class="kbn">
+      <div class="kcol"><div class="kh">Idea <span class="kn">3</span></div><div class="kcard" onclick="OP('content','idea1')"><div class="kcname">Groom prep reel</div><div class="kcsub">Instagram · Reels</div></div></div>
+      <div class="kcol"><div class="kh">Shooting <span class="kn">2</span></div><div class="kcard" style="border-color:var(--amber)" onclick="OP('content','reel1')"><div class="kcname">Kapoor BTS</div><div class="kcsub">Due: Jun 15</div></div></div>
+      <div class="kcol"><div class="kh">Editing <span class="kn">3</span></div>
+        <div class="kcard" onclick="OP('content','pod8')"><div class="kcname">Podcast Ep. 8</div><div class="kcsub">Editor: Riya D.</div></div>
+        <div class="kcard" onclick="OP('content','reel2')"><div class="kcname">Tips reel #12</div><div class="kcsub">Editor: Arjun M.</div></div>
+      </div>
+      <div class="kcol"><div class="kh">Scheduled <span class="kn">4</span></div>
+        <div class="kcard" style="border-color:var(--gold)" onclick="OP('content','testi')"><div class="kcname">Singh testimonial</div><div class="kcsub">Jun 19 · Instagram</div></div>
+        <div class="kcard" style="border-color:var(--gold)" onclick="OP('content','bts')"><div class="kcname">Wedding BTS Jun</div><div class="kcsub">Jun 22 · YouTube</div></div>
+      </div>
+      <div class="kcol"><div class="kh">Posted <span class="kn">18</span></div><div class="kcard" style="opacity:.6" onclick="OP('content','old1')"><div class="kcname">Gupta wedding reel</div><div class="kcsub">42K views ✓</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- VENDORS -->
+<div id="pg-vendors" class="page">
+  <div class="card">
+    <div class="ct">Vendor directory — click any vendor for full profile</div>
+    <div class="tw"><table><thead><tr><th>Vendor</th><th>Category</th><th>City</th><th>Rating</th><th>Commission</th><th>Contact</th></tr></thead><tbody>
+      <tr class="cr" onclick="OP('vendor','ritu')"><td><strong>Glamour by Ritu</strong></td><td><span class="pill pn">Makeup Artist</span></td><td>Delhi</td><td style="color:var(--gold)">★ 4.9</td><td style="color:var(--green)">₹3,000/booking</td><td>+91 98765 11111</td></tr>
+      <tr class="cr" onclick="OP('vendor','grand')"><td><strong>The Grand Venue</strong></td><td><span class="pill pe">Venue</span></td><td>Gurgaon</td><td style="color:var(--gold)">★ 4.6</td><td style="color:var(--green)">₹5,000/booking</td><td>+91 98765 22222</td></tr>
+      <tr class="cr" onclick="OP('vendor','floral')"><td><strong>Floral Dreams</strong></td><td><span class="pill pd">Decorator</span></td><td>Delhi</td><td style="color:var(--gold)">★ 4.7</td><td style="color:var(--green)">₹4,000/booking</td><td>+91 98765 33333</td></tr>
+      <tr class="cr" onclick="OP('vendor','royal')"><td><strong>Royal Events</strong></td><td><span class="pill pf">Event Planner</span></td><td>Delhi</td><td style="color:var(--gold)">★ 4.8</td><td style="color:var(--green)">₹8,000/booking</td><td>+91 98765 44444</td></tr>
+      <tr class="cr" onclick="OP('vendor','spice')"><td><strong>Spice & Flavours</strong></td><td><span class="pill pb" style="background:var(--tealbg);color:var(--teal)">Caterer</span></td><td>Noida</td><td style="color:var(--gold)">★ 4.5</td><td style="color:var(--green)">₹2,000/booking</td><td>+91 98765 55555</td></tr>
+    </tbody></table></div>
+  </div>
+</div>
+
+<!-- SOPs -->
+<div id="pg-sops" class="page">
+  <div class="card">
+    <div class="ct">SOP library — click any SOP to view sections</div>
+    <div class="tw"><table><thead><tr><th>Title</th><th>Department</th><th>Version</th><th>Owner</th><th>Updated</th></tr></thead><tbody>
+      <tr class="cr" onclick="OP('sop','photo')"><td><strong>Photographer Field SOP</strong><br><span style="font-size:9px;color:var(--text3)">Gear check, shot list, backup</span></td><td>Production</td><td><span class="pill pact">v2.1</span></td><td>Amit S.</td><td>Jun 1, 2025</td></tr>
+      <tr class="cr" onclick="OP('sop','video')"><td><strong>Videographer SOP</strong><br><span style="font-size:9px;color:var(--text3)">Equipment, settings, audio</span></td><td>Production</td><td><span class="pill pact">v1.8</span></td><td>Karan R.</td><td>May 20, 2025</td></tr>
+      <tr class="cr" onclick="OP('sop','post')"><td><strong>Post-Production SOP</strong><br><span style="font-size:9px;color:var(--text3)">Colour, export, naming</span></td><td>Post Production</td><td><span class="pill pact">v3.0</span></td><td>Riya D.</td><td>Jun 5, 2025</td></tr>
+      <tr class="cr" onclick="OP('sop','sales')"><td><strong>Sales & Lead SOP</strong><br><span style="font-size:9px;color:var(--text3)">Inquiry → follow-up → proposal</span></td><td>CRM</td><td><span class="pill pf">v1.3</span></td><td>Priya S.</td><td>Apr 10, 2025</td></tr>
+      <tr class="cr" onclick="OP('sop','comms')"><td><strong>Client Comms SOP</strong><br><span style="font-size:9px;color:var(--text3)">Welcome kit, WhatsApp templates</span></td><td>CRM</td><td><span class="pill pact">v2.0</span></td><td>Priya S.</td><td>May 15, 2025</td></tr>
+      <tr class="cr" onclick="OP('sop','album')"><td><strong>Album Design SOP</strong><br><span style="font-size:9px;color:var(--text3)">Layout, fonts, print specs</span></td><td>Design</td><td><span class="pill pe">v1.5</span></td><td>Vikram K.</td><td>Mar 28, 2025</td></tr>
+    </tbody></table></div>
+  </div>
+</div>
+
+  </div><!-- /content -->
+
+  <!-- POPUP -->
+  <div class="popup-wrap" id="pw" onclick="closeOnBg(event)">
+    <div class="popup" id="popup">
+      <div class="ph" id="ph">
+        <div class="ph-ava" id="pava"></div>
+        <div><div class="ph-title" id="ptit"></div><div class="ph-sub" id="psub2"></div></div>
+        <div class="pclose" onclick="CP()" aria-label="Close"><i class="ti ti-x" aria-hidden="true"></i></div>
+      </div>
+      <div class="pbody" id="pbody"></div>
+      <div class="pfooter" id="pfoot"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Lead added successfully</div>
+</div>
+</div>
+
+<script>
+var isDark=true;
+function toggleTheme(){
+  isDark=!isDark;
+  document.getElementById('app').className=isDark?'app dark':'app';
+  document.getElementById('tmico').className=isDark?'ti ti-moon':'ti ti-sun';
+  document.getElementById('tmlbl').textContent=isDark?'Dark':'Light';
+}
+document.getElementById('app').className='app dark';
+document.getElementById('tmico').className='ti ti-moon';
+document.getElementById('tmlbl').textContent='Dark';
+
+var meta={dash:{t:'CEO Dashboard',s:'Friday, 13 June 2025'},leads:{t:'Lead Management',s:'47 leads · 7 follow-ups today'},clients:{t:'Client CRM',s:'34 active clients'},projects:{t:'Wedding Projects',s:'Active production tracker'},payments:{t:'Payment Tracker',s:'₹7.2L outstanding · 3 overdue'},emp:{t:'Employee Management',s:'14 team members'},attend:{t:'Attendance & Leave',s:'Today: Jun 13, 2025'},equip:{t:'Equipment Tracking',s:'38 items · 3 in maintenance'},content:{t:'Content Calendar',s:'June 2025 · 4 posts scheduled'},vendors:{t:'Vendor Directory',s:'5 partners'},sops:{t:'SOP Library',s:'7 documents'}};
+
+function G(id){
+  document.querySelectorAll('.page').forEach(p=>{p.classList.remove('on')});
+  var el=document.getElementById('pg-'+id);
+  if(el)el.classList.add('on');
+  document.querySelectorAll('.ni').forEach(n=>{n.classList.remove('on');var o=n.getAttribute('onclick');if(o&&o.includes("'"+id+"'"))n.classList.add('on')});
+  var m=meta[id]||{t:id,s:''};
+  document.getElementById('ptitle').textContent=m.t;
+  document.getElementById('psub').textContent=m.s;
+  CP();
+}
+function ST(tid,el,prefix,vid){
+  document.getElementById(tid).querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  document.querySelectorAll('[id^="'+prefix+'-"]').forEach(v=>v.style.display='none');
+  var t=document.getElementById(prefix+'-'+vid);
+  if(t)t.style.display='block';
+}
+
+var DATA={
+lead:{
+  ananya:{icon:'💍',ava:'AK',bg:'var(--redbg)',fc:'var(--red)',title:'Ananya & Karan',sub:'Lead · Delhi · Hot',
+    body:`<div class="drow"><div class="df"><div class="dfl">Bride</div><div class="dfv">Ananya Mehrotra</div></div><div class="df"><div class="dfl">Groom</div><div class="dfv">Karan Agarwal</div></div></div><div class="drow"><div class="df"><div class="dfl">Phone</div><div class="dfv">+91 98765 43210</div></div><div class="df"><div class="dfl">Email</div><div class="dfv" style="font-size:11px">ananya@gmail.com</div></div></div><div class="drow"><div class="df"><div class="dfl">Wedding Date</div><div class="dfv" style="color:var(--coral)">Aug 15, 2025 — 63 days left</div></div><div class="df"><div class="dfl">City</div><div class="dfv">Delhi</div></div></div><div class="drow"><div class="df"><div class="dfl">Budget</div><div class="dfv" style="color:var(--gold);font-size:15px;font-weight:700">₹4,50,000</div></div><div class="df"><div class="dfl">Lead Score</div><div class="dfv"><span class="sco" style="background:var(--redbg);color:var(--red);font-size:12px;width:26px;height:26px">9</span></div></div></div><div class="drow"><div class="df"><div class="dfl">Source</div><div class="dfv">Instagram (DM)</div></div><div class="df"><div class="dfl">Assigned To</div><div class="dfv">Priya Singh</div></div></div><div class="ddiv"></div><div class="drow"><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill phot">Hot Lead</span></div></div><div class="df"><div class="dfl">Follow-up</div><div class="dfv" style="color:var(--coral);font-weight:500">Today — overdue!</div></div></div><div class="df"><div class="dfl">Notes</div><div class="dfv dfsub">Interested in full-day coverage + drone shots. Budget flexible up to ₹5L. Meeting requested for Jun 16.</div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-phone" aria-hidden="true"></i> Call Now</div><div class="btn"><i class="ti ti-calendar" aria-hidden="true"></i> Schedule Meet</div><div class="btn"><i class="ti ti-message" aria-hidden="true"></i> WhatsApp</div>`},
+  sanya:{icon:'💍',ava:'SM',bg:'var(--purplebg)',fc:'var(--purple)',title:'Sanya & Mihir',sub:'Lead · Gurgaon · Follow Up',
+    body:`<div class="drow"><div class="df"><div class="dfl">Phone</div><div class="dfv">+91 77665 44332</div></div><div class="df"><div class="dfl">Wedding Date</div><div class="dfv">Nov 3, 2025</div></div></div><div class="drow"><div class="df"><div class="dfl">Budget</div><div class="dfv" style="color:var(--gold);font-weight:700">₹3,20,000</div></div><div class="df"><div class="dfl">Source</div><div class="dfv">Referral (Kapoor Family)</div></div></div><div class="drow"><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill pf">Follow Up</span></div></div><div class="df"><div class="dfl">Follow-up Date</div><div class="dfv">Jun 15, 2025</div></div></div><div class="df"><div class="dfl">Notes</div><div class="dfv dfsub">Referred by Kapoor family. Budget is firm. Prefers a cinematic style.</div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-phone" aria-hidden="true"></i> Call</div><div class="btn"><i class="ti ti-message" aria-hidden="true"></i> WhatsApp</div>`},
+  ritu:{icon:'💍',ava:'RP',bg:'var(--greenbg)',fc:'var(--green)',title:'Ritu & Prashant',sub:'Lead · Noida · Hot',
+    body:`<div class="drow"><div class="df"><div class="dfl">Phone</div><div class="dfv">+91 87654 32109</div></div><div class="df"><div class="dfl">Wedding Date</div><div class="dfv" style="color:var(--coral)">Jul 22, 2025 — 39 days!</div></div></div><div class="drow"><div class="df"><div class="dfl">Budget</div><div class="dfv" style="color:var(--gold);font-weight:700">₹5,80,000</div></div><div class="df"><div class="dfl">Score</div><div class="dfv"><span class="sco" style="background:var(--redbg);color:var(--red);width:26px;height:26px">9</span></div></div></div><div class="df"><div class="dfl">Notes</div><div class="dfv dfsub">High-budget lead. Wants cinematic film + full album. Very urgent — wedding in 39 days. Flexible on add-ons.</div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-phone" aria-hidden="true"></i> Call Now</div><div class="btn"><i class="ti ti-message" aria-hidden="true"></i> WhatsApp</div>`},
+  neha:{icon:'💍',ava:'NS',bg:'var(--bluebg)',fc:'var(--blue)',title:'Neha & Sameer',sub:'Lead · Mumbai · New',
+    body:`<div class="drow"><div class="df"><div class="dfl">Wedding Date</div><div class="dfv">Feb 14, 2026</div></div><div class="df"><div class="dfl">Budget</div><div class="dfv" style="color:var(--gold);font-weight:700">₹2,80,000</div></div></div><div class="drow"><div class="df"><div class="dfl">Source</div><div class="dfv">JustDial</div></div><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill pn">New Lead</span></div></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-phone" aria-hidden="true"></i> Call</div>`},
+  mehta:{icon:'💍',ava:'MG',bg:'var(--amberbg)',fc:'var(--amber)',title:'Mehta & Gupta',sub:'Lead · Delhi · Meeting Scheduled',
+    body:`<div class="drow"><div class="df"><div class="dfl">Wedding Date</div><div class="dfv">Dec 5, 2025</div></div><div class="df"><div class="dfl">Budget</div><div class="dfv" style="color:var(--gold);font-weight:700">₹3,50,000</div></div></div><div class="drow"><div class="df"><div class="dfl">Source</div><div class="dfv">Instagram</div></div><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill pm">Meeting Scheduled</span></div></div></div><div class="df"><div class="dfl">Meeting</div><div class="dfv">Jun 16, 2025 · 11:00 AM · Office</div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-calendar" aria-hidden="true"></i> View Meeting</div>`},
+  vidya:{icon:'💍',ava:'VC',bg:'var(--bg3)',fc:'var(--text3)',title:'Vidya & Chetan',sub:'Lead · Faridabad · Cold',
+    body:`<div class="drow"><div class="df"><div class="dfl">Wedding Date</div><div class="dfv">Mar 12, 2026</div></div><div class="df"><div class="dfl">Budget</div><div class="dfv" style="color:var(--gold);font-weight:700">₹1,80,000</div></div></div><div class="drow"><div class="df"><div class="dfl">Last Contact</div><div class="dfv" style="color:var(--coral)">May 26, 2025 — 18 days ago</div></div><div class="df"><div class="dfl">Score</div><div class="dfv"><span class="sco" style="background:var(--bg3);color:var(--text3);width:26px;height:26px">3</span></div></div></div><div class="df"><div class="dfl">Suggestion</div><div class="dfv dfsub">Send a re-engagement message with a seasonal discount or limited offer to revive interest.</div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-message" aria-hidden="true"></i> Re-engage</div>`},
+  pooja:{icon:'💍',ava:'PJ',bg:'var(--greenbg)',fc:'var(--green)',title:'Pooja & Jay',sub:'Lead · Delhi · Hot',
+    body:`<div class="drow"><div class="df"><div class="dfl">Wedding Date</div><div class="dfv" style="color:var(--amber)">Sep 7, 2025 — 86 days</div></div><div class="df"><div class="dfl">Budget</div><div class="dfv" style="color:var(--gold);font-weight:700">₹4,10,000</div></div></div><div class="drow"><div class="df"><div class="dfl">Source</div><div class="dfv">Referral</div></div><div class="df"><div class="dfl">Follow-up</div><div class="dfv" style="color:var(--coral);font-weight:500">Today</div></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-phone" aria-hidden="true"></i> Call Now</div>`},
+  arun:{icon:'💍',ava:'AK',bg:'var(--bg3)',fc:'var(--text3)',title:'Arun & Kavya',sub:'Lead · Cold',
+    body:`<div class="drow"><div class="df"><div class="dfl">Last Contact</div><div class="dfv" style="color:var(--coral)">May 20, 2025 — 24 days ago</div></div><div class="df"><div class="dfl">Budget</div><div class="dfv" style="color:var(--gold);font-weight:700">₹2,10,000</div></div></div><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill pcold">Cold Lead</span></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-message" aria-hidden="true"></i> Re-engage</div>`}
+},
+client:{
+  rohan:{icon:'👫',ava:'RP',bg:'var(--greenbg)',fc:'var(--green)',title:'Rohan & Priya',sub:'Client · Premium Package · Booked',
+    body:`<div class="drow"><div class="df"><div class="dfl">Bride</div><div class="dfv">Priya Nair</div></div><div class="df"><div class="dfl">Groom</div><div class="dfv">Rohan Bhatia</div></div></div><div class="drow"><div class="df"><div class="dfl">Phone</div><div class="dfv">+91 91234 56789</div></div><div class="df"><div class="dfl">Email</div><div class="dfv" style="font-size:11px">rohan@gmail.com</div></div></div><div class="drow"><div class="df"><div class="dfl">Wedding Date</div><div class="dfv" style="color:var(--amber)">Jul 5, 2025</div></div><div class="df"><div class="dfl">Location</div><div class="dfv">Taj Palace, Delhi</div></div></div><div class="drow"><div class="df"><div class="dfl">Package</div><div class="dfv">Premium</div></div><div class="df"><div class="dfl">RM</div><div class="dfv">Amit Sharma</div></div></div><div class="ddiv"></div><div class="drow"><div class="df"><div class="dfl">Total Value</div><div class="dfv" style="color:var(--gold);font-size:15px;font-weight:700">₹2,40,000</div></div><div class="df"><div class="dfl">Balance Due</div><div class="dfv" style="color:var(--amber);font-size:15px;font-weight:700">₹1,80,000</div></div></div><div class="drow"><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill pb">Booked</span></div></div><div class="df"><div class="dfl">Album Status</div><div class="dfv">Not started</div></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-edit" aria-hidden="true"></i> Edit</div><div class="btn"><i class="ti ti-cash" aria-hidden="true"></i> Record Payment</div><div class="btn"><i class="ti ti-link" aria-hidden="true"></i> Drive</div>`},
+  kapoor:{icon:'👑',ava:'KP',bg:'var(--goldbg)',fc:'var(--gold)',title:'Kapoor Family',sub:'Client · Elite Package · Shooting Tomorrow',
+    body:`<div class="drow"><div class="df"><div class="dfl">Bride</div><div class="dfv">Simran Kapoor</div></div><div class="df"><div class="dfl">Groom</div><div class="dfv">Rahul Mehra</div></div></div><div class="drow"><div class="df"><div class="dfl">Wedding Date</div><div class="dfv" style="color:var(--coral);font-weight:500">Jun 14, 2025 — Tomorrow!</div></div><div class="df"><div class="dfl">Location</div><div class="dfv">The Leela, Delhi</div></div></div><div class="drow"><div class="df"><div class="dfl">Package</div><div class="dfv">Elite (4-day)</div></div><div class="df"><div class="dfl">RM</div><div class="dfv">Riya Desai</div></div></div><div class="ddiv"></div><div class="drow"><div class="df"><div class="dfl">Total</div><div class="dfv" style="color:var(--gold);font-size:15px;font-weight:700">₹6,20,000</div></div><div class="df"><div class="dfl">Balance</div><div class="dfv" style="color:var(--green);font-size:15px;font-weight:700">₹0 — Fully Paid</div></div></div><div class="ddiv"></div><div class="df"><div class="dfl">Project Workflow</div><div class="dfv"><div class="dwf"><div class="dwf-step done"><i class="ti ti-check" aria-hidden="true"></i> Pre Production complete</div><div class="dwf-step act"><i class="ti ti-camera" aria-hidden="true"></i> Shooting — Tomorrow 2PM, Lodhi Garden</div><div class="dwf-step"><i class="ti ti-database" aria-hidden="true"></i> Backup Pending</div><div class="dwf-step"><i class="ti ti-scissors" aria-hidden="true"></i> Editing</div><div class="dwf-step"><i class="ti ti-eye" aria-hidden="true"></i> Client Review</div></div></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-camera" aria-hidden="true"></i> View Project</div><div class="btn"><i class="ti ti-link" aria-hidden="true"></i> Drive</div>`},
+  sharma:{icon:'👫',ava:'SW',bg:'var(--tealbg)',fc:'var(--teal)',title:'Sharma Wedding',sub:'Client · Classic Package · Client Review',
+    body:`<div class="drow"><div class="df"><div class="dfl">Wedding Date</div><div class="dfv">May 3, 2025</div></div><div class="df"><div class="dfl">Package</div><div class="dfv">Classic</div></div></div><div class="drow"><div class="df"><div class="dfl">Total</div><div class="dfv" style="color:var(--gold);font-weight:700">₹4,40,000</div></div><div class="df"><div class="dfl">Balance</div><div class="dfv" style="color:var(--amber);font-weight:700">₹80,000</div></div></div><div class="drow"><div class="df"><div class="dfl">Editor</div><div class="dfv">Arjun Mehta</div></div><div class="df"><div class="dfl">Deadline</div><div class="dfv" style="color:var(--amber)">Jun 20, 2025</div></div></div><div class="df"><div class="dfl">Album Status</div><div class="dfv"><span class="pill pe">In Client Review</span></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-send" aria-hidden="true"></i> Send Reminder</div><div class="btn"><i class="ti ti-cash" aria-hidden="true"></i> Collect ₹80K</div>`},
+  singh:{icon:'✅',ava:'SW',bg:'var(--bg3)',fc:'var(--text3)',title:'Singh Wedding',sub:'Client · Premium Package · Delivered',
+    body:`<div class="drow"><div class="df"><div class="dfl">Wedding Date</div><div class="dfv">May 18, 2025</div></div><div class="df"><div class="dfl">Package</div><div class="dfv">Premium</div></div></div><div class="drow"><div class="df"><div class="dfl">Total</div><div class="dfv" style="color:var(--gold);font-weight:700">₹3,80,000</div></div><div class="df"><div class="dfl">Balance</div><div class="dfv" style="color:var(--green);font-weight:700">₹0 — Fully Paid</div></div></div><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill pd">Delivered & Closed</span></div></div><div class="df"><div class="dfl">Testimonial</div><div class="dfv dfsub">"Amazing work by the YSF team! Every moment captured beautifully." — Arjun Singh</div></div>`,
+    foot:`<div class="btn"><i class="ti ti-star" aria-hidden="true"></i> View Testimonial</div>`},
+  mehta:{icon:'💍',ava:'MG',bg:'var(--amberbg)',fc:'var(--amber)',title:'Mehta & Gupta',sub:'Client · New Lead',
+    body:`<div class="drow"><div class="df"><div class="dfl">Stage</div><div class="dfv"><span class="pill pn">New Lead</span></div></div><div class="df"><div class="dfl">Budget</div><div class="dfv" style="color:var(--gold);font-weight:700">₹3,50,000</div></div></div><div class="df"><div class="dfl">Wedding Date</div><div class="dfv">Dec 5, 2025</div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-arrow-right" aria-hidden="true"></i> Move to Follow Up</div>`},
+  neha_c:{icon:'💍',ava:'NS',bg:'var(--bluebg)',fc:'var(--blue)',title:'Neha & Sameer',sub:'Client · New Lead',
+    body:`<div class="drow"><div class="df"><div class="dfl">Stage</div><div class="dfv"><span class="pill pn">New Lead</span></div></div><div class="df"><div class="dfl">Budget</div><div class="dfv" style="color:var(--gold);font-weight:700">₹2,80,000</div></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-phone" aria-hidden="true"></i> Call</div>`},
+  sanya_c:{icon:'💍',ava:'SM',bg:'var(--purplebg)',fc:'var(--purple)',title:'Sanya & Mihir',sub:'Client · Follow Up',
+    body:`<div class="drow"><div class="df"><div class="dfl">Stage</div><div class="dfv"><span class="pill pf">Follow Up</span></div></div><div class="df"><div class="dfl">Budget</div><div class="dfv" style="color:var(--gold);font-weight:700">₹3,20,000</div></div></div><div class="df"><div class="dfl">Source</div><div class="dfv">Kapoor Family Referral</div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-phone" aria-hidden="true"></i> Follow Up</div>`},
+  divya:{icon:'💍',ava:'DR',bg:'var(--bg3)',fc:'var(--text3)',title:'Divya & Rohit',sub:'Client · Follow Up',
+    body:`<div class="drow"><div class="df"><div class="dfl">Stage</div><div class="dfv"><span class="pill pf">Follow Up</span></div></div><div class="df"><div class="dfl">Budget</div><div class="dfv" style="color:var(--gold);font-weight:700">₹2,50,000</div></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-phone" aria-hidden="true"></i> Follow Up</div>`},
+  vikram_c:{icon:'💍',ava:'VS',bg:'var(--bg3)',fc:'var(--text3)',title:'Vikram & Sneha',sub:'Client · Meeting Scheduled',
+    body:`<div class="drow"><div class="df"><div class="dfl">Stage</div><div class="dfv"><span class="pill pm">Meeting Scheduled</span></div></div><div class="df"><div class="dfl">Budget</div><div class="dfv" style="color:var(--gold);font-weight:700">₹4,20,000</div></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-calendar" aria-hidden="true"></i> Meeting Details</div>`},
+  arun_c:{icon:'💍',ava:'AP',bg:'var(--bg3)',fc:'var(--text3)',title:'Arun & Priya',sub:'Client · Proposal Sent',
+    body:`<div class="drow"><div class="df"><div class="dfl">Stage</div><div class="dfv"><span class="pill ppart">Proposal Sent</span></div></div><div class="df"><div class="dfl">Budget</div><div class="dfv" style="color:var(--gold);font-weight:700">₹5,10,000</div></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-file" aria-hidden="true"></i> View Proposal</div>`},
+  ananya_c:{icon:'👫',ava:'AV',bg:'var(--tealbg)',fc:'var(--teal)',title:'Ananya & Vivek',sub:'Client · Editing',
+    body:`<div class="drow"><div class="df"><div class="dfl">Stage</div><div class="dfv"><span class="pill pe">Editing</span></div></div><div class="df"><div class="dfl">Total</div><div class="dfv" style="color:var(--gold);font-weight:700">₹3,10,000</div></div></div><div class="drow"><div class="df"><div class="dfl">Deadline</div><div class="dfv">Jun 25, 2025</div></div><div class="df"><div class="dfl">Editor</div><div class="dfv">Riya Desai</div></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-movie" aria-hidden="true"></i> View Project</div>`}
+},
+project:{
+  kapoor:{icon:'🎬',ava:'KP',bg:'var(--goldbg)',fc:'var(--gold)',title:'Kapoor Family — Project',sub:'Elite Package · Shooting Tomorrow',
+    body:`<div class="drow"><div class="df"><div class="dfl">Wedding Date</div><div class="dfv" style="color:var(--coral);font-weight:500">Jun 14, 2025 — Tomorrow!</div></div><div class="df"><div class="dfl">Delivery Deadline</div><div class="dfv" style="color:var(--amber)">Jul 14, 2025</div></div></div><div class="drow"><div class="df"><div class="dfl">Photographer</div><div class="dfv">Karan Rawat</div></div><div class="df"><div class="dfl">Videographer</div><div class="dfv">Karan Rawat</div></div></div><div class="drow"><div class="df"><div class="dfl">Editor</div><div class="dfv">Riya Desai</div></div><div class="df"><div class="dfl">Album Designer</div><div class="dfv">Vikram Kaul</div></div></div><div class="drow"><div class="df"><div class="dfl">Priority</div><div class="dfv"><span class="pill phot">Urgent</span></div></div><div class="df"><div class="dfl">Current Stage</div><div class="dfv"><span class="pill pb">Shooting</span></div></div></div><div class="ddiv"></div><div class="df"><div class="dfl">Full Workflow</div><div class="dfv"><div class="dwf"><div class="dwf-step done"><i class="ti ti-check" aria-hidden="true"></i> Pre Production</div><div class="dwf-step act"><i class="ti ti-camera" aria-hidden="true"></i> Shooting — Tomorrow</div><div class="dwf-step">Backup Pending</div><div class="dwf-step">Editing</div><div class="dwf-step">Client Review</div><div class="dwf-step">Album Design</div><div class="dwf-step">Printing</div><div class="dwf-step">Delivered</div></div></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-check" aria-hidden="true"></i> Mark Shot Done</div><div class="btn"><i class="ti ti-message" aria-hidden="true"></i> Contact Client</div>`},
+  sharma:{icon:'🎬',ava:'SW',bg:'var(--tealbg)',fc:'var(--teal)',title:'Sharma Wedding — Project',sub:'Classic Package · Client Review',
+    body:`<div class="drow"><div class="df"><div class="dfl">Wedding Date</div><div class="dfv">May 3, 2025</div></div><div class="df"><div class="dfl">Deadline</div><div class="dfv" style="color:var(--amber)">Jun 20, 2025</div></div></div><div class="drow"><div class="df"><div class="dfl">Photographer</div><div class="dfv">Neha Kapoor</div></div><div class="df"><div class="dfl">Editor</div><div class="dfv">Arjun Mehta</div></div></div><div class="ddiv"></div><div class="df"><div class="dfl">Workflow</div><div class="dfv"><div class="dwf"><div class="dwf-step done"><i class="ti ti-check" aria-hidden="true"></i> Pre Production</div><div class="dwf-step done"><i class="ti ti-check" aria-hidden="true"></i> Shooting</div><div class="dwf-step done"><i class="ti ti-check" aria-hidden="true"></i> Backup</div><div class="dwf-step done"><i class="ti ti-check" aria-hidden="true"></i> Editing</div><div class="dwf-step act"><i class="ti ti-clock" aria-hidden="true"></i> Client Review — Awaiting</div><div class="dwf-step">Album Design</div><div class="dwf-step">Printing</div><div class="dwf-step">Delivered</div></div></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-send" aria-hidden="true"></i> Send Reminder</div>`},
+  ananya_p:{icon:'🎬',ava:'AV',bg:'var(--tealbg)',fc:'var(--teal)',title:'Ananya & Vivek — Project',sub:'Classic Package · Editing',
+    body:`<div class="drow"><div class="df"><div class="dfl">Photographer</div><div class="dfv">Karan Rawat</div></div><div class="df"><div class="dfl">Editor</div><div class="dfv">Riya Desai</div></div></div><div class="drow"><div class="df"><div class="dfl">Deadline</div><div class="dfv">Jun 25, 2025</div></div><div class="df"><div class="dfl">Stage</div><div class="dfv"><span class="pill pe">Editing</span></div></div></div><div class="ddiv"></div><div class="df"><div class="dfl">Workflow</div><div class="dfv"><div class="dwf"><div class="dwf-step done"><i class="ti ti-check" aria-hidden="true"></i> Pre Production</div><div class="dwf-step done"><i class="ti ti-check" aria-hidden="true"></i> Shooting</div><div class="dwf-step done"><i class="ti ti-check" aria-hidden="true"></i> Backup</div><div class="dwf-step act"><i class="ti ti-scissors" aria-hidden="true"></i> Editing in progress</div><div class="dwf-step">Client Review</div><div class="dwf-step">Album Design</div></div></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-scissors" aria-hidden="true"></i> Update Status</div>`},
+  rohan_p:{icon:'🎬',ava:'RP',bg:'var(--greenbg)',fc:'var(--green)',title:'Rohan & Priya — Project',sub:'Premium Package · Pre Production',
+    body:`<div class="drow"><div class="df"><div class="dfl">Wedding Date</div><div class="dfv" style="color:var(--amber)">Jul 5, 2025</div></div><div class="df"><div class="dfl">Delivery Deadline</div><div class="dfv">Aug 5, 2025</div></div></div><div class="drow"><div class="df"><div class="dfl">Photographer</div><div class="dfv">Neha Kapoor</div></div><div class="df"><div class="dfl">Videographer</div><div class="dfv">TBD</div></div></div><div class="drow"><div class="df"><div class="dfl">Stage</div><div class="dfv"><span class="pill pn">Pre Production</span></div></div><div class="df"><div class="dfl">Shot List</div><div class="dfv" style="color:var(--amber)">Pending by Jun 30</div></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-list" aria-hidden="true"></i> Create Shot List</div>`}
+},
+payment:{
+  kapoor:{icon:'💳',ava:'KP',bg:'var(--greenbg)',fc:'var(--green)',title:'Kapoor Family — Payments',sub:'₹6,20,000 · Fully Paid',
+    body:`<div class="drow"><div class="df"><div class="dfl">Total Contract</div><div class="dfv" style="color:var(--gold);font-size:16px;font-weight:700">₹6,20,000</div></div><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill ppaid">Fully Paid</span></div></div></div><div class="ddiv"></div><div class="payrow" style="background:var(--greenbg)"><span style="font-size:11px;color:var(--text2)">Advance (25%)</span><span style="color:var(--green);font-weight:600;font-size:11px">₹1,50,000 ✓ Feb 15</span></div><div class="payrow" style="background:var(--greenbg)"><span style="font-size:11px;color:var(--text2)">2nd Installment</span><span style="color:var(--green);font-weight:600;font-size:11px">₹2,00,000 ✓ May 10</span></div><div class="payrow" style="background:var(--greenbg)"><span style="font-size:11px;color:var(--text2)">Final Payment</span><span style="color:var(--green);font-weight:600;font-size:11px">₹2,70,000 ✓ Jun 12</span></div><div class="payrow" style="background:var(--greenbg);border-radius:6px;margin-top:5px"><span style="font-size:12px;font-weight:600;color:var(--text)">Balance Outstanding</span><span style="color:var(--green);font-weight:700;font-size:13px">₹0</span></div>`,
+    foot:`<div class="btn"><i class="ti ti-file-invoice" aria-hidden="true"></i> Download Receipt</div>`},
+  rohan:{icon:'💳',ava:'RP',bg:'var(--amberbg)',fc:'var(--amber)',title:'Rohan & Priya — Payments',sub:'₹2,40,000 · Partial',
+    body:`<div class="drow"><div class="df"><div class="dfl">Total Contract</div><div class="dfv" style="color:var(--gold);font-size:16px;font-weight:700">₹2,40,000</div></div><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill ppart">Partial</span></div></div></div><div class="ddiv"></div><div class="payrow" style="background:var(--greenbg)"><span style="font-size:11px;color:var(--text2)">Advance (25%)</span><span style="color:var(--green);font-weight:600;font-size:11px">₹60,000 ✓ Apr 20</span></div><div class="payrow" style="background:var(--amberbg)"><span style="font-size:11px;color:var(--text2)">2nd Installment</span><span style="color:var(--amber);font-weight:600;font-size:11px">₹80,000 — Due Jul 5</span></div><div class="payrow" style="background:var(--bg3)"><span style="font-size:11px;color:var(--text2)">Final Payment</span><span style="color:var(--text3);font-size:11px">₹1,00,000 — After delivery</span></div><div class="payrow" style="background:var(--amberbg);margin-top:5px"><span style="font-size:12px;font-weight:600;color:var(--text)">Balance Outstanding</span><span style="color:var(--amber);font-weight:700;font-size:13px">₹1,80,000</span></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-cash" aria-hidden="true"></i> Record Payment</div><div class="btn"><i class="ti ti-send" aria-hidden="true"></i> Send Reminder</div>`},
+  sharma:{icon:'💳',ava:'SW',bg:'var(--amberbg)',fc:'var(--amber)',title:'Sharma Wedding — Payments',sub:'₹4,40,000 · Partial',
+    body:`<div class="drow"><div class="df"><div class="dfl">Total</div><div class="dfv" style="color:var(--gold);font-size:16px;font-weight:700">₹4,40,000</div></div><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill ppart">Partial</span></div></div></div><div class="ddiv"></div><div class="payrow" style="background:var(--greenbg)"><span style="font-size:11px;color:var(--text2)">Advance</span><span style="color:var(--green);font-weight:600;font-size:11px">₹1,00,000 ✓</span></div><div class="payrow" style="background:var(--greenbg)"><span style="font-size:11px;color:var(--text2)">2nd Installment</span><span style="color:var(--green);font-weight:600;font-size:11px">₹2,60,000 ✓</span></div><div class="payrow" style="background:var(--amberbg)"><span style="font-size:11px;color:var(--text2)">Final Payment</span><span style="color:var(--amber);font-weight:600;font-size:11px">₹80,000 — Due Jun 20</span></div><div class="payrow" style="background:var(--amberbg);margin-top:5px"><span style="font-size:12px;font-weight:600;color:var(--text)">Balance</span><span style="color:var(--amber);font-weight:700;font-size:13px">₹80,000</span></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-cash" aria-hidden="true"></i> Collect ₹80,000</div>`},
+  arjun:{icon:'⚠️',ava:'AK',bg:'var(--redbg)',fc:'var(--red)',title:'Arjun Kumar — Payments',sub:'₹3,10,000 · OVERDUE',
+    body:`<div class="drow"><div class="df"><div class="dfl">Total Contract</div><div class="dfv" style="color:var(--gold);font-size:16px;font-weight:700">₹3,10,000</div></div><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill po">Overdue</span></div></div></div><div class="infobox" style="background:var(--redbg);color:var(--coral);border:1px solid rgba(176,58,26,.2)">2nd installment of ₹60,000 is overdue since Jun 1, 2025 (12 days). Contact client immediately.</div><div class="payrow" style="background:var(--greenbg)"><span style="font-size:11px;color:var(--text2)">Advance</span><span style="color:var(--green);font-weight:600;font-size:11px">₹80,000 ✓ Jan 15</span></div><div class="payrow" style="background:var(--redbg)"><span style="font-size:11px;color:var(--text2)">2nd Installment</span><span style="color:var(--coral);font-weight:600;font-size:11px">₹60,000 ✗ OVERDUE</span></div><div class="payrow" style="background:var(--bg3)"><span style="font-size:11px;color:var(--text2)">Final</span><span style="color:var(--text3);font-size:11px">₹1,70,000 — Pending</span></div><div class="payrow" style="background:var(--redbg);margin-top:5px"><span style="font-size:12px;font-weight:600;color:var(--text)">Balance Outstanding</span><span style="color:var(--coral);font-weight:700;font-size:13px">₹2,30,000</span></div>`,
+    foot:`<div class="btn pri" style="background:var(--coral);border-color:var(--coral)"><i class="ti ti-phone" aria-hidden="true"></i> Call Client</div><div class="btn"><i class="ti ti-message" aria-hidden="true"></i> WhatsApp</div>`},
+  singh:{icon:'💳',ava:'SW',bg:'var(--greenbg)',fc:'var(--green)',title:'Singh Wedding — Payments',sub:'₹3,80,000 · Fully Paid',
+    body:`<div class="drow"><div class="df"><div class="dfl">Total</div><div class="dfv" style="color:var(--gold);font-size:16px;font-weight:700">₹3,80,000</div></div><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill ppaid">Fully Paid</span></div></div></div><div class="ddiv"></div><div class="payrow" style="background:var(--greenbg)"><span>Advance</span><span style="color:var(--green);font-weight:600;font-size:11px">₹80,000 ✓</span></div><div class="payrow" style="background:var(--greenbg)"><span>2nd</span><span style="color:var(--green);font-weight:600;font-size:11px">₹1,50,000 ✓</span></div><div class="payrow" style="background:var(--greenbg)"><span>Final</span><span style="color:var(--green);font-weight:600;font-size:11px">₹1,50,000 ✓</span></div>`,
+    foot:`<div class="btn"><i class="ti ti-file-invoice" aria-hidden="true"></i> Receipt</div>`}
+},
+emp:{
+  amit:{icon:'👤',ava:'AS',bg:'var(--purplebg)',fc:'var(--purple)',title:'Amit Sharma',sub:'Lead Photographer · Production',
+    body:`<div class="drow"><div class="df"><div class="dfl">Designation</div><div class="dfv">Lead Photographer</div></div><div class="df"><div class="dfl">Department</div><div class="dfv">Production</div></div></div><div class="drow"><div class="df"><div class="dfl">Phone</div><div class="dfv">+91 98765 00001</div></div><div class="df"><div class="dfl">Email</div><div class="dfv" style="font-size:11px">amit@ysfilms.in</div></div></div><div class="drow"><div class="df"><div class="dfl">Joined</div><div class="dfv">Jan 15, 2022</div></div><div class="df"><div class="dfl">Salary</div><div class="dfv" style="color:var(--gold);font-weight:600">₹75,000/mo</div></div></div><div class="drow"><div class="df"><div class="dfl">Reports To</div><div class="dfv">CEO (Founder)</div></div><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill pact">Active</span></div></div></div><div class="drow"><div class="df"><div class="dfl">Emergency Contact</div><div class="dfv">+91 98765 00002</div></div><div class="df"><div class="dfl">Experience at YSF</div><div class="dfv">3+ years</div></div></div><div class="ddiv"></div><div class="df"><div class="dfl">Today</div><div class="dfv dfsub">Checked in 9:02 AM · On production floor</div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-edit" aria-hidden="true"></i> Edit Profile</div><div class="btn"><i class="ti ti-calendar" aria-hidden="true"></i> View Attendance</div>`},
+  riya:{icon:'👤',ava:'RD',bg:'var(--greenbg)',fc:'var(--green)',title:'Riya Desai',sub:'Lead Editor · Post Production',
+    body:`<div class="drow"><div class="df"><div class="dfl">Designation</div><div class="dfv">Lead Editor</div></div><div class="df"><div class="dfl">Department</div><div class="dfv">Post Production</div></div></div><div class="drow"><div class="df"><div class="dfl">Joined</div><div class="dfv">Mar 10, 2022</div></div><div class="df"><div class="dfl">Salary</div><div class="dfv" style="color:var(--gold);font-weight:600">₹70,000/mo</div></div></div><div class="drow"><div class="df"><div class="dfl">Reports To</div><div class="dfv">CEO</div></div><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill pact">Active</span></div></div></div><div class="ddiv"></div><div class="df"><div class="dfl">Active Projects</div><div class="dfv dfsub">Kapoor Wedding (upcoming) · Ananya & Vivek (editing)</div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-edit" aria-hidden="true"></i> Edit</div>`},
+  karan:{icon:'👤',ava:'KR',bg:'var(--tealbg)',fc:'var(--teal)',title:'Karan Rawat',sub:'Videographer · Production',
+    body:`<div class="drow"><div class="df"><div class="dfl">Designation</div><div class="dfv">Videographer</div></div><div class="df"><div class="dfl">Department</div><div class="dfv">Production</div></div></div><div class="drow"><div class="df"><div class="dfl">Joined</div><div class="dfv">Aug 5, 2023</div></div><div class="df"><div class="dfl">Salary</div><div class="dfv" style="color:var(--gold);font-weight:600">₹55,000/mo</div></div></div><div class="drow"><div class="df"><div class="dfl">Reports To</div><div class="dfv">Amit Sharma</div></div><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill pact">Active</span></div></div></div><div class="ddiv"></div><div class="df"><div class="dfl">Today</div><div class="dfv dfsub">On shoot — Lodhi Garden (Kapoor Pre-wedding)</div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-edit" aria-hidden="true"></i> Edit</div>`},
+  neha_e:{icon:'👤',ava:'NK',bg:'var(--amberbg)',fc:'var(--amber)',title:'Neha Kapoor',sub:'Photographer · On Probation',
+    body:`<div class="drow"><div class="df"><div class="dfl">Designation</div><div class="dfv">Photographer</div></div><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill pprob">Probation</span></div></div></div><div class="drow"><div class="df"><div class="dfl">Joined</div><div class="dfv">Feb 12, 2024</div></div><div class="df"><div class="dfl">Salary</div><div class="dfv" style="color:var(--gold);font-weight:600">₹40,000/mo</div></div></div><div class="drow"><div class="df"><div class="dfl">Reports To</div><div class="dfv">Amit Sharma</div></div><div class="df"><div class="dfl">Probation Ends</div><div class="dfv" style="color:var(--amber)">Aug 12, 2024</div></div></div><div class="ddiv"></div><div class="df"><div class="dfl">Today</div><div class="dfv dfsub">On sick leave — Jun 13–14. Leave request pending approval.</div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-check" aria-hidden="true"></i> Confirm Employee</div><div class="btn"><i class="ti ti-edit" aria-hidden="true"></i> Edit</div>`},
+  priya_e:{icon:'👤',ava:'PS',bg:'var(--bluebg)',fc:'var(--blue)',title:'Priya Singh',sub:'Sales Executive · CRM',
+    body:`<div class="drow"><div class="df"><div class="dfl">Designation</div><div class="dfv">Sales Executive</div></div><div class="df"><div class="dfl">Department</div><div class="dfv">CRM</div></div></div><div class="drow"><div class="df"><div class="dfl">Joined</div><div class="dfv">Jun 1, 2023</div></div><div class="df"><div class="dfl">Salary</div><div class="dfv" style="color:var(--gold);font-weight:600">₹45,000/mo</div></div></div><div class="drow"><div class="df"><div class="dfl">Reports To</div><div class="dfv">CEO</div></div><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill pact">Active</span></div></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-edit" aria-hidden="true"></i> Edit</div>`},
+  vikram_e:{icon:'👤',ava:'VK',bg:'var(--bg3)',fc:'var(--text3)',title:'Vikram Kaul',sub:'Album Designer · Freelancer',
+    body:`<div class="drow"><div class="df"><div class="dfl">Type</div><div class="dfv"><span class="pill pfree">Freelancer</span></div></div><div class="df"><div class="dfl">Designation</div><div class="dfv">Album Designer</div></div></div><div class="drow"><div class="df"><div class="dfl">Per Project Rate</div><div class="dfv" style="color:var(--gold);font-weight:600">₹8,000</div></div><div class="df"><div class="dfl">Reports To</div><div class="dfv">Riya Desai</div></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-edit" aria-hidden="true"></i> Edit</div>`}
+},
+attend:{
+  amit:{icon:'🕐',ava:'AS',bg:'var(--greenbg)',fc:'var(--green)',title:'Amit Sharma — Attendance',sub:'Jun 13, 2025 · Present',
+    body:`<div class="drow"><div class="df"><div class="dfl">Check In</div><div class="dfv" style="color:var(--green);font-size:14px;font-weight:700">9:02 AM</div></div><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill pact">Present</span></div></div></div><div class="drow"><div class="df"><div class="dfl">Check Out</div><div class="dfv" style="color:var(--text3)">Ongoing</div></div><div class="df"><div class="dfl">Hours Worked</div><div class="dfv" style="color:var(--teal)">5h 58m (so far)</div></div></div><div class="ddiv"></div><div class="df"><div class="dfl">This Month Summary</div><div class="dfv dfsub">Present: 10 days · Leave: 0 · Absent: 0 · Half Day: 1</div></div>`,
+    foot:`<div class="btn"><i class="ti ti-calendar" aria-hidden="true"></i> Full Monthly Log</div>`},
+  riya:{icon:'🕐',ava:'RD',bg:'var(--greenbg)',fc:'var(--green)',title:'Riya Desai — Attendance',sub:'Jun 13, 2025 · Present',
+    body:`<div class="drow"><div class="df"><div class="dfl">Check In</div><div class="dfv" style="color:var(--green);font-size:14px;font-weight:700">9:45 AM</div></div><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill pact">Present</span></div></div></div><div class="drow"><div class="df"><div class="dfl">Current Task</div><div class="dfv">Editing — Ananya & Vivek</div></div><div class="df"><div class="dfl">Hours Worked</div><div class="dfv" style="color:var(--teal)">5h 15m (so far)</div></div></div><div class="ddiv"></div><div class="df"><div class="dfl">This Month Summary</div><div class="dfv dfsub">Present: 10 · Leave: 0 · Half Day: 1</div></div>`,
+    foot:`<div class="btn"><i class="ti ti-calendar" aria-hidden="true"></i> Full Log</div>`},
+  karan:{icon:'🎬',ava:'KR',bg:'var(--amberbg)',fc:'var(--amber)',title:'Karan Rawat — Attendance',sub:'Jun 13, 2025 · On Shoot Duty',
+    body:`<div class="drow"><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill pact">On Shoot Duty</span></div></div><div class="df"><div class="dfl">Check In</div><div class="dfv" style="color:var(--amber)">Shoot assignment</div></div></div><div class="df"><div class="dfl">Shoot Location</div><div class="dfv">Lodhi Garden, Delhi</div></div><div class="df"><div class="dfl">Assignment</div><div class="dfv">Kapoor Pre-wedding shoot</div></div><div class="df"><div class="dfl">Expected Return</div><div class="dfv">7:00 PM</div></div>`,
+    foot:`<div class="btn"><i class="ti ti-calendar" aria-hidden="true"></i> Full Log</div>`},
+  neha_a:{icon:'🏥',ava:'NK',bg:'var(--amberbg)',fc:'var(--amber)',title:'Neha Kapoor — Leave Request',sub:'Jun 13–14, 2025 · Sick Leave · Pending',
+    body:`<div class="drow"><div class="df"><div class="dfl">Leave Type</div><div class="dfv">Sick Leave</div></div><div class="df"><div class="dfl">Days</div><div class="dfv">2 days (Jun 13–14)</div></div></div><div class="df"><div class="dfl">Reason</div><div class="dfv">Fever and cold. Doctor advised rest.</div></div><div class="ddiv"></div><div class="df"><div class="dfl">Workflow Status</div><div class="dfv"><div class="dwf"><div class="dwf-step done"><i class="ti ti-check" aria-hidden="true"></i> Employee submitted</div><div class="dwf-step act"><i class="ti ti-clock" aria-hidden="true"></i> Awaiting manager approval</div><div class="dwf-step">HR notification</div><div class="dwf-step">Approved / Rejected</div></div></div></div>`,
+    foot:`<div class="btn" style="border-color:var(--green);color:var(--green)"><i class="ti ti-check" aria-hidden="true"></i> Approve</div><div class="btn" style="border-color:var(--coral);color:var(--coral)"><i class="ti ti-x" aria-hidden="true"></i> Reject</div>`},
+  priya_a:{icon:'🕐',ava:'PS',bg:'var(--greenbg)',fc:'var(--green)',title:'Priya Singh — Attendance',sub:'Jun 13, 2025 · Present',
+    body:`<div class="drow"><div class="df"><div class="dfl">Check In</div><div class="dfv" style="color:var(--green);font-size:14px;font-weight:700">9:15 AM</div></div><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill pact">Present</span></div></div></div><div class="df"><div class="dfl">Today's Activity</div><div class="dfv dfsub">3 follow-up calls done · 1 meeting conducted · 2 proposals sent</div></div>`,
+    foot:`<div class="btn"><i class="ti ti-calendar" aria-hidden="true"></i> Full Log</div>`}
+},
+equip:{
+  cam1:{icon:'📷',ava:'📷',emoji:true,bg:'var(--bg3)',fc:'var(--text2)',title:'Sony A7R IV',sub:'CAM-001 · In Use',
+    body:`<div class="drow"><div class="df"><div class="dfl">Serial No.</div><div class="dfv">CAM-001</div></div><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill pf">In Use</span></div></div></div><div class="drow"><div class="df"><div class="dfl">Assigned To</div><div class="dfv">Amit Sharma</div></div><div class="df"><div class="dfl">Warranty Until</div><div class="dfv" style="color:var(--green)">Mar 2027</div></div></div><div class="drow"><div class="df"><div class="dfl">Purchase Date</div><div class="dfv">Mar 12, 2022</div></div><div class="df"><div class="dfl">Purchase Price</div><div class="dfv" style="color:var(--gold);font-weight:600">₹2,65,000</div></div></div><div class="ddiv"></div><div class="df"><div class="dfl">Notes</div><div class="dfv dfsub">Primary camera for all lead photographer shoots. Sensor replaced Aug 2023.</div></div>`,
+    foot:`<div class="btn"><i class="ti ti-edit" aria-hidden="true"></i> Update Status</div>`},
+  cam2:{icon:'📷',ava:'📷',emoji:true,bg:'var(--greenbg)',fc:'var(--green)',title:'Sony A7III',sub:'CAM-002 · Available',
+    body:`<div class="drow"><div class="df"><div class="dfl">Serial No.</div><div class="dfv">CAM-002</div></div><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill pact">Available</span></div></div></div><div class="drow"><div class="df"><div class="dfl">Warranty Until</div><div class="dfv" style="color:var(--amber)">Aug 2026</div></div><div class="df"><div class="dfl">Purchase Price</div><div class="dfv" style="color:var(--gold);font-weight:600">₹1,85,000</div></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-user" aria-hidden="true"></i> Assign to Staff</div>`},
+  drone:{icon:'🚁',ava:'🚁',emoji:true,bg:'var(--amberbg)',fc:'var(--amber)',title:'DJI Mavic 3',sub:'DRN-001 · In Use',
+    body:`<div class="drow"><div class="df"><div class="dfl">Serial No.</div><div class="dfv">DRN-001</div></div><div class="df"><div class="dfl">Assigned To</div><div class="dfv">Karan Rawat</div></div></div><div class="drow"><div class="df"><div class="dfl">Warranty Until</div><div class="dfv" style="color:var(--amber)">Dec 2025</div></div><div class="df"><div class="dfl">Purchase Price</div><div class="dfv" style="color:var(--gold);font-weight:600">₹1,40,000</div></div></div><div class="df"><div class="dfl">Flight Certificate</div><div class="dfv" style="color:var(--green)">Valid · DGCA #DL-2024-0892</div></div>`,
+    foot:`<div class="btn"><i class="ti ti-edit" aria-hidden="true"></i> Update</div>`},
+  gimbal:{icon:'🔧',ava:'🔧',emoji:true,bg:'var(--redbg)',fc:'var(--red)',title:'DJI RS3 Gimbal',sub:'GIM-002 · Maintenance',
+    body:`<div class="drow"><div class="df"><div class="dfl">Serial No.</div><div class="dfv">GIM-002</div></div><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill po">Maintenance</span></div></div></div><div class="df"><div class="dfl">Issue Reported</div><div class="dfv" style="color:var(--coral)">Motor axis malfunction — Jun 8, 2025</div></div><div class="drow"><div class="df"><div class="dfl">Service Centre</div><div class="dfv">DJI Service Delhi</div></div><div class="df"><div class="dfl">Ticket No.</div><div class="dfv">DJI-58293</div></div></div><div class="df"><div class="dfl">ETA Return</div><div class="dfv" style="color:var(--amber)">Jun 20, 2025</div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-refresh" aria-hidden="true"></i> Update Status</div>`},
+  mac:{icon:'💻',ava:'💻',emoji:true,bg:'var(--bg3)',fc:'var(--text2)',title:'MacBook Pro M3',sub:'MAC-003 · In Use',
+    body:`<div class="drow"><div class="df"><div class="dfl">Serial No.</div><div class="dfv">MAC-003</div></div><div class="df"><div class="dfl">Assigned To</div><div class="dfv">Riya Desai</div></div></div><div class="df"><div class="dfl">Specs</div><div class="dfv dfsub">M3 Pro · 36GB RAM · 1TB SSD · Primary editing station</div></div><div class="df"><div class="dfl">Purchase Date</div><div class="dfv">Dec 2023</div></div>`,
+    foot:`<div class="btn"><i class="ti ti-edit" aria-hidden="true"></i> Update</div>`},
+  hdd:{icon:'💾',ava:'💾',emoji:true,bg:'var(--greenbg)',fc:'var(--green)',title:'WD Hard Drives × 3',sub:'HDD-001–003 · Available',
+    body:`<div class="drow"><div class="df"><div class="dfl">Serial Nos.</div><div class="dfv">HDD-001, 002, 003</div></div><div class="df"><div class="dfl">Capacity</div><div class="dfv">4TB each</div></div></div><div class="drow"><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill pact">Available</span></div></div><div class="df"><div class="dfl">Location</div><div class="dfv">Storage room</div></div></div><div class="df"><div class="dfl">Purpose</div><div class="dfv dfsub">RAW backup storage for all wedding shoots. Rotate after 3 months.</div></div>`,
+    foot:`<div class="btn"><i class="ti ti-edit" aria-hidden="true"></i> Update</div>`}
+},
+content:{
+  reel1:{icon:'🎬',ava:'🎬',emoji:true,bg:'var(--amberbg)',fc:'var(--amber)',title:'Kapoor BTS Reel',sub:'Shooting · Instagram Reels',
+    body:`<div class="drow"><div class="df"><div class="dfl">Type</div><div class="dfv">Wedding BTS</div></div><div class="df"><div class="dfl">Platform</div><div class="dfv">Instagram Reels</div></div></div><div class="drow"><div class="df"><div class="dfl">Shoot Date</div><div class="dfv">Jun 14, 2025</div></div><div class="df"><div class="dfl">Post Date</div><div class="dfv" style="color:var(--gold)">Jun 12, 2025</div></div></div><div class="drow"><div class="df"><div class="dfl">Editor</div><div class="dfv">Riya Desai</div></div><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill pf">Shooting</span></div></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-edit" aria-hidden="true"></i> Update Status</div>`},
+  pod8:{icon:'🎙',ava:'🎙',emoji:true,bg:'var(--tealbg)',fc:'var(--teal)',title:'Podcast Episode 8',sub:'Editing · YouTube + Spotify',
+    body:`<div class="drow"><div class="df"><div class="dfl">Type</div><div class="dfv">Podcast</div></div><div class="df"><div class="dfl">Platform</div><div class="dfv">YouTube + Spotify</div></div></div><div class="drow"><div class="df"><div class="dfl">Post Date</div><div class="dfv" style="color:var(--gold)">Jun 13, 2025</div></div><div class="df"><div class="dfl">Editor</div><div class="dfv">Riya Desai</div></div></div><div class="df"><div class="dfl">Topic</div><div class="dfv dfsub">Behind the lens: How we shoot night ceremonies</div></div><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill pe">Editing in progress</span></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-upload" aria-hidden="true"></i> Schedule Post</div>`},
+  testi:{icon:'⭐',ava:'⭐',emoji:true,bg:'var(--goldbg)',fc:'var(--gold)',title:'Singh Testimonial',sub:'Scheduled · Jun 19 · Instagram',
+    body:`<div class="drow"><div class="df"><div class="dfl">Type</div><div class="dfv">Testimonial</div></div><div class="df"><div class="dfl">Platform</div><div class="dfv">Instagram</div></div></div><div class="drow"><div class="df"><div class="dfl">Scheduled</div><div class="dfv" style="color:var(--gold);font-weight:500">Jun 19, 2025</div></div><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill pd">Scheduled</span></div></div></div><div class="df"><div class="dfl">Caption Preview</div><div class="dfv dfsub">"Every moment perfectly captured" — Arjun Singh ❤️ #WeddingFilms #YourStoryFilms</div></div>`,
+    foot:`<div class="btn"><i class="ti ti-eye" aria-hidden="true"></i> Preview Post</div>`},
+  bts:{icon:'🎞',ava:'🎞',emoji:true,bg:'var(--goldbg)',fc:'var(--gold)',title:'Wedding BTS June',sub:'Scheduled · Jun 22 · YouTube',
+    body:`<div class="drow"><div class="df"><div class="dfl">Type</div><div class="dfv">Wedding BTS</div></div><div class="df"><div class="dfl">Platform</div><div class="dfv">YouTube</div></div></div><div class="drow"><div class="df"><div class="dfl">Scheduled</div><div class="dfv" style="color:var(--gold);font-weight:500">Jun 22, 2025</div></div><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill pd">Scheduled</span></div></div></div>`,
+    foot:`<div class="btn"><i class="ti ti-eye" aria-hidden="true"></i> Preview</div>`},
+  reel2:{icon:'💡',ava:'💡',emoji:true,bg:'var(--tealbg)',fc:'var(--teal)',title:'Tips Reel #12',sub:'Editing · Instagram · Jun 17',
+    body:`<div class="drow"><div class="df"><div class="dfl">Type</div><div class="dfv">Educational Reel</div></div><div class="df"><div class="dfl">Platform</div><div class="dfv">Instagram</div></div></div><div class="drow"><div class="df"><div class="dfl">Post Date</div><div class="dfv">Jun 17, 2025</div></div><div class="df"><div class="dfl">Editor</div><div class="dfv">Arjun Mehta</div></div></div><div class="df"><div class="dfl">Topic</div><div class="dfv dfsub">5 camera angles every wedding photographer must use</div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-upload" aria-hidden="true"></i> Schedule</div>`},
+  shoot_kapoor:{icon:'🎥',ava:'🎥',emoji:true,bg:'var(--purplebg)',fc:'var(--purple)',title:'Kapoor Wedding Shoot',sub:'Jun 14 · The Leela, Delhi',
+    body:`<div class="drow"><div class="df"><div class="dfl">Client</div><div class="dfv">Kapoor Family</div></div><div class="df"><div class="dfl">Type</div><div class="dfv">Full-day wedding</div></div></div><div class="drow"><div class="df"><div class="dfl">Photographer</div><div class="dfv">Karan Rawat</div></div><div class="df"><div class="dfl">Start Time</div><div class="dfv">9:00 AM</div></div></div><div class="df"><div class="dfl">Location</div><div class="dfv">The Leela Palace, Delhi</div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-camera" aria-hidden="true"></i> View Project</div>`},
+  idea1:{icon:'💡',ava:'💡',emoji:true,bg:'var(--bg3)',fc:'var(--text3)',title:'Groom Prep Reel',sub:'Idea Stage · Instagram',
+    body:`<div class="drow"><div class="df"><div class="dfl">Type</div><div class="dfv">Reel</div></div><div class="df"><div class="dfl">Status</div><div class="dfv"><span class="pill pn">Idea Stage</span></div></div></div><div class="df"><div class="dfl">Concept</div><div class="dfv dfsub">Groom getting ready — candid moments, sherwani shots, groomsmen jokes</div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-pencil" aria-hidden="true"></i> Start Script</div>`},
+  old1:{icon:'✅',ava:'✅',emoji:true,bg:'var(--greenbg)',fc:'var(--green)',title:'Gupta Wedding Reel',sub:'Posted · May 10 · 42K views',
+    body:`<div class="drow"><div class="df"><div class="dfl">Posted</div><div class="dfv" style="color:var(--green)">May 10, 2025</div></div><div class="df"><div class="dfl">Platform</div><div class="dfv">Instagram</div></div></div><div class="drow"><div class="df"><div class="dfl">Views</div><div class="dfv" style="color:var(--gold);font-weight:700;font-size:15px">42,300</div></div><div class="df"><div class="dfl">Likes</div><div class="dfv">1,840</div></div></div><div class="drow"><div class="df"><div class="dfl">Comments</div><div class="dfv">218</div></div><div class="df"><div class="dfl">Shares</div><div class="dfv">94</div></div></div>`,
+    foot:`<div class="btn"><i class="ti ti-chart-bar" aria-hidden="true"></i> Full Analytics</div>`}
+},
+vendor:{
+  ritu:{icon:'💄',ava:'GR',bg:'var(--purplebg)',fc:'var(--purple)',title:'Glamour by Ritu',sub:'Makeup Artist · Delhi · ★ 4.9',
+    body:`<div class="drow"><div class="df"><div class="dfl">Category</div><div class="dfv">Makeup Artist</div></div><div class="df"><div class="dfl">City</div><div class="dfv">Delhi</div></div></div><div class="drow"><div class="df"><div class="dfl">Phone</div><div class="dfv">+91 98765 11111</div></div><div class="df"><div class="dfl">Rating</div><div class="dfv" style="color:var(--gold);font-weight:700">★ 4.9 / 5.0</div></div></div><div class="drow"><div class="df"><div class="dfl">Commission</div><div class="dfv" style="color:var(--green);font-weight:600">₹3,000 / booking</div></div><div class="df"><div class="dfl">Bookings via YSF</div><div class="dfv">12 bookings</div></div></div><div class="ddiv"></div><div class="df"><div class="dfl">Total Commissions Earned</div><div class="dfv" style="color:var(--gold);font-size:15px;font-weight:700">₹36,000</div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-phone" aria-hidden="true"></i> Contact</div><div class="btn"><i class="ti ti-edit" aria-hidden="true"></i> Edit</div>`},
+  grand:{icon:'🏛',ava:'TG',bg:'var(--bluebg)',fc:'var(--blue)',title:'The Grand Venue',sub:'Venue · Gurgaon · ★ 4.6',
+    body:`<div class="drow"><div class="df"><div class="dfl">Category</div><div class="dfv">Venue</div></div><div class="df"><div class="dfl">City</div><div class="dfv">Gurgaon</div></div></div><div class="drow"><div class="df"><div class="dfl">Capacity</div><div class="dfv">500–800 guests</div></div><div class="df"><div class="dfl">Rating</div><div class="dfv" style="color:var(--gold);font-weight:700">★ 4.6 / 5.0</div></div></div><div class="drow"><div class="df"><div class="dfl">Commission</div><div class="dfv" style="color:var(--green);font-weight:600">₹5,000 / booking</div></div><div class="df"><div class="dfl">Referrals</div><div class="dfv">7 bookings</div></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-phone" aria-hidden="true"></i> Contact</div>`},
+  floral:{icon:'🌸',ava:'FD',bg:'var(--goldbg)',fc:'var(--gold)',title:'Floral Dreams',sub:'Decorator · Delhi · ★ 4.7',
+    body:`<div class="drow"><div class="df"><div class="dfl">Category</div><div class="dfv">Decorator</div></div><div class="df"><div class="dfl">City</div><div class="dfv">Delhi</div></div></div><div class="drow"><div class="df"><div class="dfl">Rating</div><div class="dfv" style="color:var(--gold);font-weight:700">★ 4.7 / 5.0</div></div><div class="df"><div class="dfl">Commission</div><div class="dfv" style="color:var(--green);font-weight:600">₹4,000 / booking</div></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-phone" aria-hidden="true"></i> Contact</div>`},
+  royal:{icon:'👑',ava:'RE',bg:'var(--amberbg)',fc:'var(--amber)',title:'Royal Events',sub:'Event Planner · Delhi · ★ 4.8',
+    body:`<div class="drow"><div class="df"><div class="dfl">Category</div><div class="dfv">Event Planner</div></div><div class="df"><div class="dfl">City</div><div class="dfv">Delhi</div></div></div><div class="drow"><div class="df"><div class="dfl">Rating</div><div class="dfv" style="color:var(--gold);font-weight:700">★ 4.8 / 5.0</div></div><div class="df"><div class="dfl">Commission</div><div class="dfv" style="color:var(--green);font-weight:600">₹8,000 / booking</div></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-phone" aria-hidden="true"></i> Contact</div>`},
+  spice:{icon:'🍽',ava:'SF',bg:'var(--tealbg)',fc:'var(--teal)',title:'Spice & Flavours',sub:'Caterer · Noida · ★ 4.5',
+    body:`<div class="drow"><div class="df"><div class="dfl">Category</div><div class="dfv">Caterer</div></div><div class="df"><div class="dfl">City</div><div class="dfv">Noida</div></div></div><div class="drow"><div class="df"><div class="dfl">Rating</div><div class="dfv" style="color:var(--gold);font-weight:700">★ 4.5 / 5.0</div></div><div class="df"><div class="dfl">Commission</div><div class="dfv" style="color:var(--green);font-weight:600">₹2,000 / booking</div></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-phone" aria-hidden="true"></i> Contact</div>`}
+},
+sop:{
+  photo:{icon:'📷',ava:'📷',emoji:true,bg:'var(--bg3)',fc:'var(--text2)',title:'Photographer Field SOP',sub:'v2.1 · Production · Amit Sharma',
+    body:`<div class="drow"><div class="df"><div class="dfl">Department</div><div class="dfv">Production</div></div><div class="df"><div class="dfl">Version</div><div class="dfv"><span class="pill pact">v2.1 — Latest</span></div></div></div><div class="drow"><div class="df"><div class="dfl">Owner</div><div class="dfv">Amit Sharma</div></div><div class="df"><div class="dfl">Last Updated</div><div class="dfv">Jun 1, 2025</div></div></div><div class="ddiv"></div><div class="df"><div class="dfl">Sections</div><div class="dfv"><div class="sopstep">1. Pre-shoot gear checklist (12 items)</div><div class="sopstep">2. Wedding day shot list (ceremony + reception)</div><div class="sopstep">3. RAW backup protocol — dual card + NAS upload</div><div class="sopstep">4. Client communication during shoot</div><div class="sopstep">5. File naming convention</div></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-eye" aria-hidden="true"></i> View Full SOP</div><div class="btn"><i class="ti ti-edit" aria-hidden="true"></i> Edit</div>`},
+  video:{icon:'🎬',ava:'🎬',emoji:true,bg:'var(--bg3)',fc:'var(--text2)',title:'Videographer SOP',sub:'v1.8 · Production · Karan Rawat',
+    body:`<div class="drow"><div class="df"><div class="dfl">Department</div><div class="dfv">Production</div></div><div class="df"><div class="dfl">Version</div><div class="dfv"><span class="pill pact">v1.8</span></div></div></div><div class="drow"><div class="df"><div class="dfl">Owner</div><div class="dfv">Karan Rawat</div></div><div class="df"><div class="dfl">Updated</div><div class="dfv">May 20, 2025</div></div></div><div class="ddiv"></div><div class="df"><div class="dfl">Sections</div><div class="dfv"><div class="sopstep">1. Camera settings per lighting condition</div><div class="sopstep">2. Audio checklist — wireless + boom</div><div class="sopstep">3. Drone operation protocol</div><div class="sopstep">4. B-roll shot list</div></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-eye" aria-hidden="true"></i> View SOP</div>`},
+  post:{icon:'✂',ava:'✂',emoji:true,bg:'var(--bg3)',fc:'var(--text2)',title:'Post-Production SOP',sub:'v3.0 · Post Production · Riya Desai',
+    body:`<div class="drow"><div class="df"><div class="dfl">Department</div><div class="dfv">Post Production</div></div><div class="df"><div class="dfl">Version</div><div class="dfv"><span class="pill pact">v3.0 — Latest</span></div></div></div><div class="drow"><div class="df"><div class="dfl">Owner</div><div class="dfv">Riya Desai</div></div><div class="df"><div class="dfl">Updated</div><div class="dfv">Jun 5, 2025</div></div></div><div class="ddiv"></div><div class="df"><div class="dfl">Sections</div><div class="dfv"><div class="sopstep">1. Culling workflow — Lightroom presets</div><div class="sopstep">2. Colour grading standards per package</div><div class="sopstep">3. Export settings per delivery type</div><div class="sopstep">4. File naming and folder structure</div><div class="sopstep">5. Client delivery via Drive</div></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-eye" aria-hidden="true"></i> View SOP</div>`},
+  sales:{icon:'🎯',ava:'🎯',emoji:true,bg:'var(--bg3)',fc:'var(--text2)',title:'Sales & Lead SOP',sub:'v1.3 · CRM · Priya Singh',
+    body:`<div class="drow"><div class="df"><div class="dfl">Department</div><div class="dfv">CRM</div></div><div class="df"><div class="dfl">Version</div><div class="dfv"><span class="pill pf">v1.3</span></div></div></div><div class="drow"><div class="df"><div class="dfl">Owner</div><div class="dfv">Priya Singh</div></div><div class="df"><div class="dfl">Updated</div><div class="dfv">Apr 10, 2025</div></div></div><div class="ddiv"></div><div class="df"><div class="dfl">Sections</div><div class="dfv"><div class="sopstep">1. Inquiry response — within 2 hours</div><div class="sopstep">2. Follow-up sequence (Day 1, 3, 7, 15)</div><div class="sopstep">3. Proposal template & pricing guide</div><div class="sopstep">4. Closing script & objection handling</div></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-eye" aria-hidden="true"></i> View SOP</div>`},
+  comms:{icon:'💬',ava:'💬',emoji:true,bg:'var(--bg3)',fc:'var(--text2)',title:'Client Comms SOP',sub:'v2.0 · CRM · Priya Singh',
+    body:`<div class="drow"><div class="df"><div class="dfl">Owner</div><div class="dfv">Priya Singh</div></div><div class="df"><div class="dfl">Version</div><div class="dfv"><span class="pill pact">v2.0</span></div></div></div><div class="ddiv"></div><div class="df"><div class="dfl">Templates Included</div><div class="dfv"><div class="sopstep">Welcome message after booking</div><div class="sopstep">Pre-shoot reminder (7 days & 1 day)</div><div class="sopstep">Album delivery announcement</div><div class="sopstep">Testimonial request template</div><div class="sopstep">Payment reminder message</div></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-eye" aria-hidden="true"></i> View Templates</div>`},
+  album:{icon:'📖',ava:'📖',emoji:true,bg:'var(--bg3)',fc:'var(--text2)',title:'Album Design SOP',sub:'v1.5 · Design · Vikram Kaul',
+    body:`<div class="drow"><div class="df"><div class="dfl">Department</div><div class="dfv">Design</div></div><div class="df"><div class="dfl">Version</div><div class="dfv"><span class="pill pe">v1.5</span></div></div></div><div class="drow"><div class="df"><div class="dfl">Owner</div><div class="dfv">Vikram Kaul</div></div><div class="df"><div class="dfl">Updated</div><div class="dfv">Mar 28, 2025</div></div></div><div class="ddiv"></div><div class="df"><div class="dfl">Sections</div><div class="dfv"><div class="sopstep">1. Layout templates — 10×10 & 12×12</div><div class="sopstep">2. Approved font families</div><div class="sopstep">3. Print specs per vendor</div><div class="sopstep">4. Client approval process</div></div></div>`,
+    foot:`<div class="btn pri"><i class="ti ti-eye" aria-hidden="true"></i> View SOP</div>`}
+}
+};
+
+function OP(type,id){
+  var cat=DATA[type];if(!cat)return;
+  var d=cat[id];if(!d)return;
+  var avaEl=document.getElementById('pava');
+  if(d.emoji){
+    avaEl.style.cssText='width:42px;height:42px;border-radius:10px;background:'+d.bg+';font-size:22px;display:flex;align-items:center;justify-content:center';
+    avaEl.textContent=d.icon;
+  } else {
+    avaEl.style.cssText='width:42px;height:42px;border-radius:50%;background:'+d.bg+';color:'+d.fc+';font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center';
+    avaEl.textContent=d.ava;
+  }
+  document.getElementById('ptit').textContent=d.title;
+  document.getElementById('psub2').textContent=d.sub;
+  document.getElementById('pbody').innerHTML=d.body;
+  document.getElementById('pfoot').innerHTML=d.foot||'';
+  document.getElementById('pw').className='popup-wrap open';
+}
+function CP(){document.getElementById('pw').className='popup-wrap';}
+function closeOnBg(e){if(e.target===document.getElementById('pw'))CP();}
+function showToast(){var t=document.getElementById('toast');t.style.display='block';setTimeout(function(){t.style.display='none';},2200);}
+</script>
